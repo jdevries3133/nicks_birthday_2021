@@ -21,14 +21,13 @@ The challenge will be based on interacting with an email bot.
 
 ### Initial
 
+- WAV file playing avenger's theme, which breaks down and becomes wacky at the
+  end because the end of the file is just the binary representation of the link
+  to the discord bot repeated over and over again.
+
 ### Discord Bot
 
 ### Email Bot
-
-**Exit**
-
-- MIDI file playing avenger's theme, which breaks down and becomes wacky
-- Discord bot link is hidden in the midi file.
 
 ### Snail Mail Bot: **The Pony Express**
 
