@@ -4,6 +4,9 @@ from ..emailer import EmailBot
 
 
 class TestEmailBot(unittest.TestCase):
+    """
+    TODO: improve this test class with mocking and more specific assertions.
+    """
 
     def setUp(self):
         self.emailer = EmailBot()
@@ -17,10 +20,16 @@ class TestEmailBot(unittest.TestCase):
         self.assertTrue(self.emailer)
 
     def test_email_parse(self):
-        for eml in self.emailer.iter_plain_txt_msg():
+        for id_, eml in self.emailer.iter_plain_txt_msg():
             self.assertTrue(eml)
+            self.assertIsInstance(id_, bytes)
             self.assertIsInstance(eml, str)
 
     def test_get_newest_message(self):
-        eml = self.emailer.get_newest_message()
+        id_, eml = self.emailer.get_newest_message()
         self.assertIsInstance(eml, str)
+        self.assertIsInstance(id_, bytes)
+
+    def test_get_msg_subject_getter(self):
+        for id_, _ in self.emailer.iter_plain_txt_msg():
+            print(self.emailer.get_msg_subject(id_))
