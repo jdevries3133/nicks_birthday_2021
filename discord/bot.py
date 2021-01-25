@@ -21,6 +21,8 @@ class NickBot(discord.Client):
 
         res = control.get_response(message.content)
         if res:
-        	await message.channel.send(res)
-client = NickBot()
-client.run(config['DISCORD']['bot_token'])
+            await message.channel.send(res)
+
+if __name__ == '__main__':
+    client = NickBot()
+    client.run(config['DISCORD']['bot_token'])

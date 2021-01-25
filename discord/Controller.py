@@ -1,4 +1,4 @@
-import puzzles 
+import puzzles
 
 class Controller():
     def __init__(self):
@@ -19,4 +19,4 @@ class Controller():
     def next_puzzle(self):
         if(len(self._puzzles) > 1):
             self._puzzles.pop(0)
-        return get_prompt()
+        return self.get_prompt()

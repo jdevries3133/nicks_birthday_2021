@@ -6,6 +6,5 @@ class Puzzle(ABC):
         self.prompt =prompt
         self.commands = []
 
-    
     def puzzle_response(self, s):
         return self.prompt if self.answer == s else None
