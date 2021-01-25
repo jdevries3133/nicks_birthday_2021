@@ -1,11 +1,10 @@
-import puzzles
+from .puzzles import ServerStartup, ChessPuzzle
 
 class Controller():
     def __init__(self):
         self._puzzles = [
-            puzzles.TestPing(),
-            puzzles.ServerStartup('TODO'),
-            puzzles.ChessPuzzle(),
+            ServerStartup('TODO'),
+            ChessPuzzle(),
         ]
 
     def get_response(self, s):
@@ -21,6 +20,5 @@ class Controller():
             self._puzzles.pop(0)
         return self.get_prompt()
 
-
-    def commands():
-        return _puzzles[0].commands
+    def commands(self):
+        return self._puzzles[0].commands

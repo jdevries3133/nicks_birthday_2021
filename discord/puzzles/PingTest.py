@@ -1,6 +1,6 @@
 from .Puzzle import Puzzle
 
-class TestPing(Puzzle):
+class PingTest(Puzzle):
     def __init__(self):
         super().__init__('ping')
 
