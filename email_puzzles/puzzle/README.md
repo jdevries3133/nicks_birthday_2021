@@ -15,3 +15,5 @@
   complexity.
 - End the puzzle with something he will hopefully do many times in order
   to get many letters sent.
+
+## Beazly Metaprogramming Notes

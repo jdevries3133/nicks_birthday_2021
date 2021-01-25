@@ -43,3 +43,11 @@ class ArbitraryExecutor:
         while time.time() - self.last_call < 0.3:
             pass
         self.last_call = time.time()
+
+if __name__ == '__main__':
+    from pprint import pprint
+
+    with open('./puzzle/before.py', 'r') as fl:
+        result = ArbitraryExecutor().execute(fl.read())
+
+    pprint(result)
