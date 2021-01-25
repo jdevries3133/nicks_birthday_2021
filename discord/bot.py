@@ -1,9 +1,11 @@
 import configparser
 import discord
+from Controller import Controller
 
 config = configparser.ConfigParser()
 config.read("secrets.ini")
 
+control = Controller()
 
 class NickBot(discord.Client):
     async def on_ready(self):
@@ -14,8 +16,11 @@ class NickBot(discord.Client):
         if message.author == self.user:
             return
 
-        if message.content == 'ping':
-            await message.channel.send('pong')
+        if message.content == 'hint':
+            await message.channel.send(control.get_prompt())
 
+        res = control.get_response(message.content)
+        if res:
+        	await message.channel.send(res)
 client = NickBot()
 client.run(config['DISCORD']['bot_token'])
