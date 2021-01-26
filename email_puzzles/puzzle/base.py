@@ -247,9 +247,7 @@ class int(int):
 
     def to_bytes(self, *a, **kw):
         return self.sass()
-    pass
 
 number = int(1)
+challenge = 'What is the value of number?'
 del int
-for _ in range(10):
-    print(number)
