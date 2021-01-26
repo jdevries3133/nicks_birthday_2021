@@ -10,24 +10,35 @@ class Controller:
     have been solved to know which add-ons to append to the base puzzle.
     """
     def __init__(self):
-        self.cur_puzzle = 0
+        self.cur_puzzle = 1
         self.num_puzzles = 4
         self.puzzle_dir = Path(Path(__file__).parent, 'puzzle')
         self.executor = ArbitraryExecutor()
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.cur_puzzle += 1
+        return self.cur_puzzle
+
     def respond_to(self, message: str) -> str:
-        stdout = self.executor.execute(self.make_code(message))['stdout']
-        return self._handle_stdout(stdout)
+        response = self.executor.execute(self.make_code(message))
+        return self._handle_output(
+            response['stdout'],
+            response['stderr']
+        )
 
     def make_code(self, message: str) -> str:
         return self._exec_before() + message + self._exec_after()
 
-    def _handle_stdout(self, stdout: str) -> str:
+    @ staticmethod
+    def _handle_output(stdout: str, stderr: str, ) -> str:
         """
         Depending on the puzzle, stdout can be cleaned up here before being
         sent back to Nick.
         """
-        return stdout
+        return stdout if not stderr else '\n'.join((stdout, stderr))
 
     def _exec_before(self) -> str:
         """
@@ -38,13 +49,14 @@ class Controller:
             exec_before = basef.read()
 
         for stage_id in range(self.cur_puzzle):
-            with open(
-                Path(
-                    self.puzzle_dir,
-                    f'stage_{stage_id}_pre.py'
-                ), 'r'
-            ) as stagef:
-                exec_before += stagef.read()
+            if stage_id:
+                with open(
+                    Path(
+                        self.puzzle_dir,
+                        f'stage_{stage_id}_pre.py'
+                    ), 'r'
+                ) as stagef:
+                    exec_before += '\n' + stagef.read()
         return exec_before
 
     def _exec_after(self) -> str:
@@ -54,11 +66,11 @@ class Controller:
         """
         exec_after = ''
         with open(
-            Path(self.puzzle_dir, f'stage{self.cur_puzzle}_post.py'),
+            Path(self.puzzle_dir, f'stage_{self.cur_puzzle}_post.py'),
             'r'
         ) as stagef:
-            exec_after += stagef.read()
+            exec_after += '\n' + stagef.read()
 
-        with open(Path(self.puzzle_dir, 'after_all.py'), 'r') as stagef:
+        with open(Path(self.puzzle_dir, 'cleanup.py'), 'r') as stagef:
             exec_after += stagef.read()
         return exec_after
