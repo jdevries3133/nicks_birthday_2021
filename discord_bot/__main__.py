@@ -4,9 +4,7 @@ from  pathlib import Path
 
 config = configparser.ConfigParser()
 
-config.read(Path(Path(__file__).parent, 'secret.ini'))
-for i in config:
-    print(i)
+config.read(Path(Path(__file__).parent, 'secrets.ini'))
 
 user = config['DISCORD']['user']
 
