@@ -1,4 +1,5 @@
 import ctypes
+from time import sleep
 import unittest
 
 from ..stage_4_pre import number
@@ -15,3 +16,4 @@ class TestStageFour(unittest.TestCase):
             ctypes.c_short(number).value,
             1325
         )
+        sleep(0.2)  # rate limit

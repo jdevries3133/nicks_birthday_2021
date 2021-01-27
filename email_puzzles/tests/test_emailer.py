@@ -33,3 +33,4 @@ class TestEmailBot(unittest.TestCase):
     def test_get_msg_subject_getter(self):
         for id_, _ in self.emailer.iter_plain_txt_msg():
             print(self.emailer.get_msg_subject(id_))
+
