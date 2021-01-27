@@ -1,4 +1,5 @@
 from .puzzles import ServerStartup, ChessPuzzle
+import discord
 
 class Controller():
     def __init__(self):
@@ -7,8 +8,8 @@ class Controller():
             ChessPuzzle(),
         ]
 
-    def get_response(self, s):
-        if(self._puzzles[0].check_answer(s)):
+    def get_response(self, s, dis_obj):
+        if(self._puzzles[0].check_answer(s, dis_obj)):
             return self.next_puzzle()
         return self._puzzles[0].puzzle_response(s)
 
