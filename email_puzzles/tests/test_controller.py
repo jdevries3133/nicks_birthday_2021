@@ -25,9 +25,22 @@ class TestController(unittest.TestCase):
         )
 
     def test_respond_to_with_stderr(self):
-        self.assertEqual(
+        self.assertIn(
+            'error\nNameError: name \'error\' is not defined',
             self.controller.respond_to('error'),
-            '\nTraceback (most recent call last):\n  File "code.code", line '
-            '254, in <module>\n    error\nNameError: name \'error\' is not '
-            'defined'
         )
+
+    def test_base_case_solution(self):
+        response = self.controller.respond_to('print("Hello, world!")')
+        self.assertEqual(response, self.controller.puzzle_solutions['1']['success_response'])
+        self.assertEqual(self.controller.cur_puzzle, 2)
+
+    def test_stage_4_solution(self):
+        self.controller.cur_puzzle = 4
+        solution_code = 'import ctypes\nprint(ctypes.c_short(number).value)'
+        response = self.controller.respond_to(solution_code)
+        self.assertEqual(
+            response,
+            self.controller.puzzle_solutions['4']['success_response']
+        )
+

@@ -1,4 +1,3 @@
-# TODO: ask Thomas about persistent storage.
 from pathlib import Path
 
 from .executor import ArbitraryExecutor
@@ -9,6 +8,30 @@ class Controller:
     remotely, and return a response message. Also keep track of which puzzles
     have been solved to know which add-ons to append to the base puzzle.
     """
+
+    puzzle_solutions = {
+        '1': {
+            'stdout': 'Hello, world!',
+            'stderr': '',
+            'success_response': 'Hello to you too! Welcome to stage two :)'
+        },
+        '2': {
+            'stdout': '',
+            'stderr': '',
+            'success_response': ''
+        },
+        '3': {
+            'stdout': '',
+            'stderr': '',
+            'success_response': ''
+        },
+        '4': {
+            'stdout': '1325',
+            'stderr': '',
+            'success_response': 'You done it!'
+        },
+    }
+
     def __init__(self):
         self.cur_puzzle = 1
         self.num_puzzles = 4
@@ -30,14 +53,22 @@ class Controller:
         )
 
     def make_code(self, message: str) -> str:
-        return self._exec_before() + message + self._exec_after()
+        return self._exec_before() + message
 
-    @ staticmethod
-    def _handle_output(stdout: str, stderr: str, ) -> str:
+    def _handle_output(self, stdout: str, stderr: str, ) -> str:
         """
         Depending on the puzzle, stdout can be cleaned up here before being
         sent back to Nick.
         """
+        if (
+            stdout
+            == self.puzzle_solutions[str(self.cur_puzzle)]['stdout']
+        ) and (
+            stderr
+            == self.puzzle_solutions[str(self.cur_puzzle)]['stderr']
+        ):
+            next(self)
+            return self.puzzle_solutions[str(self.cur_puzzle - 1)]['success_response']
         return stdout if not stderr else '\n'.join((stdout, stderr))
 
     def _exec_before(self) -> str:
@@ -45,10 +76,8 @@ class Controller:
         Create the string of python code that will be executed before
         Nick's code.
         """
-        with open(Path(self.puzzle_dir, 'base.py'), 'r') as basef:
-            exec_before = basef.read()
-
-        for stage_id in range(self.cur_puzzle):
+        exec_before = ''
+        for stage_id in range(1, self.cur_puzzle + 1):
             if stage_id:
                 with open(
                     Path(
@@ -58,19 +87,3 @@ class Controller:
                 ) as stagef:
                     exec_before += '\n' + stagef.read()
         return exec_before
-
-    def _exec_after(self) -> str:
-        """
-        Create the string of python code that will be executed after Nick's
-        code.
-        """
-        exec_after = ''
-        with open(
-            Path(self.puzzle_dir, f'stage_{self.cur_puzzle}_post.py'),
-            'r'
-        ) as stagef:
-            exec_after += '\n' + stagef.read()
-
-        with open(Path(self.puzzle_dir, 'cleanup.py'), 'r') as stagef:
-            exec_after += stagef.read()
-        return exec_after

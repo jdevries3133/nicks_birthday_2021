@@ -1,5 +1,7 @@
 """
-Code to be injected after the base case is solved.
+Code to be injected first.
 """
 
 __doc__ = ''
+
+challenge = 'programming 101'
