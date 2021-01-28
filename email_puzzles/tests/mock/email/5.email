@@ -1,0 +1,112 @@
+Delivered-To: jkdlasjkfl4jkl@gmail.com
+Received: by 2002:a0c:f4c8:0:0:0:0:0 with SMTP id o8csp1886839qvm;
+        Sat, 23 Jan 2021 12:28:11 -0800 (PST)
+X-Received: by 2002:a05:6000:1841:: with SMTP id c1mr10077888wri.278.1611433691763;
+        Sat, 23 Jan 2021 12:28:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611433691; cv=none;
+        d=google.com; s=arc-20160816;
+        b=0cppIsrH74yBUHBoGWXe7yI1Z0Yy7MvKGbFfVJNoCkfePKMn3h2KxFQe4m/rtlH1Jz
+         HxUTEVLIz9kcj3TNjaukepJ6nkaGsStCes26uW432gIsZ1L0uPc6Mced5v4TGNsFfk7P
+         sGA8TQHstk64JlzYLJndLEy7K4KLrvZw3V9rVN62oGXCu3dTS6hty4pHAim3PaeawF+3
+         vevhHQZl6oF84wS2tc1QmNGnP3tAmwzZ55BPaIb5TUn7WkNmIgjL7ksT6zxTwY6R5Y5V
+         TZqUCjELgNAZsF8EcllzhsqnohF4F2gqGE23DlAOMUf4j8bej7EYYECrRKodwXf15TZ4
+         La6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=DsXIdhQKXhrG3rHj9MhbyLMA4xG/o4UEL9dPhsXLKnM=;
+        b=ni5iKBDDbqAtMUUWTFjCMfmv3hBxcBoT78P2cjHoPr0nHZbvHgtNLitkfQLCnbunFo
+         IJwlpi3x6teoRChF3KMQeb9q/yE1CCaCmnW3/I/Zqn88PUpXWYh8XOoUf8LAx0Lo4h+s
+         PgXtkyZD3XYKzfLOL52oQ53aj+KVkFMZQoba8WxdfTKK8Tvk4jQXT/8t3V+4ZWJ1axg3
+         xfcAw1yGbCmBYMK8Au1ogS+m7JLXsnS/6OQPIp64qymL0rjtnBEpKv9fdeRQcJ3PKRDd
+         3wo4+TQCf6PoSYSUmg40247rgogKpeoqOenJOi4OWe0nCQCxCvZWkWE1UD1yBwxSGQ0f
+         NWsA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=VWuJMTLA;
+       spf=pass (google.com: domain of jdevries3133@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=jdevries3133@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <jdevries3133@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id u15sor2371676wml.5.2021.01.23.12.28.11
+        for <jkdlasjkfl4jkl@gmail.com>
+        (Google Transport Security);
+        Sat, 23 Jan 2021 12:28:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of jdevries3133@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=VWuJMTLA;
+       spf=pass (google.com: domain of jdevries3133@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=jdevries3133@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=DsXIdhQKXhrG3rHj9MhbyLMA4xG/o4UEL9dPhsXLKnM=;
+        b=VWuJMTLABVlPOMFCKr36V0g9he+cncRxu2slGZPphsNEDMPwWOx8d9GSp0bliY1PI5
+         rpB4gNKcFQRN0x1IdRd3iWwPvzOAjW0pNBK/w6AeqGmQ9naIOdkkFnMQg83zeuYd7u0z
+         AYcH1ZoMqZQUcpeEsjwVbQKSGXlwH3w9KKWCEtxUjV6U6BydLSNc/84zQKw85Zb+JhXH
+         OLCI+EsfRkyVu8/diqCooMu1clmpCZR1M8fBc4A35wkxuQa4YBBvY94xcH2fMKFGgJwV
+         TgCwmE20c5gUN99ICquAqxEL6MKRx5a9jVbW+XDo7e8yQuUmi5/STUJ0SI3DgVMtndaT
+         mDLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=DsXIdhQKXhrG3rHj9MhbyLMA4xG/o4UEL9dPhsXLKnM=;
+        b=g2I9ziKEA6x+H7eRvcTc6TlgAp6dm4X+WlkhfuCEkF1AIFMbN4YOQlzB7o6qBwW6eA
+         56e7pUlQAPdqfYD4Cz+ZTbzPRrNr6f9pzaK8raZZZofnOnQ6ozLImgv3ZSzGGNnI4k6q
+         OXrOmY/gh70C5riAW3oDjlRFQEwx5SvCaXc0ootYybRrsdLaydEwJ9099c/hAJ/kbKM+
+         oqEjNXQSJ1wOx4T7vuuQtGEhh42X6LjsWJ6p0CSFDAMwRtqgxqn+x1Z71VlexRSmsCT0
+         hPaQWvH3xaOTQt+/NbD4KDdiVEejcCdD2unR7NyryPn9QE1Wo6ogpSG9ReeaWnWpocLS
+         LOQw==
+X-Gm-Message-State: AOAM533IXbhGgv5mzXVRzNSMK5oTvcx6Al0V58icj3vg+Sk79Y+zJMdq
+	uq23q7CqnasDX/bwgj0Zp1FLdPqQ238TEZ7Y0DoE17zYROc=
+X-Google-Smtp-Source: ABdhPJzyt8JF4N5yGV0bdTxu60PmurIRi+lDYucGmw/DrIJIyuLBX6GdeFWYLotRC7+AA4FOxejQBLH2XM3HHhQgbTM=
+X-Received: by 2002:a1c:ba83:: with SMTP id k125mr9386759wmf.5.1611433691315;
+ Sat, 23 Jan 2021 12:28:11 -0800 (PST)
+MIME-Version: 1.0
+References: <CAJ8vTk8t+uqEuuFMh+-o8wouiZPd=aFZWZRmUWYy02Lxm0X-Wg@mail.gmail.com>
+ <CANarL_RhMTQ=dnT=DxxZf5PjT7yL07pa1sz7qinf0PF_o5yRSQ@mail.gmail.com>
+In-Reply-To: <CANarL_RhMTQ=dnT=DxxZf5PjT7yL07pa1sz7qinf0PF_o5yRSQ@mail.gmail.com>
+From: Jack DeVries <jdevries3133@gmail.com>
+Date: Sat, 23 Jan 2021 15:27:59 -0500
+Message-ID: <CANarL_SKK0QyTTbOWz=RT4CKCjU78Yu__3XgoGaGFUS_HHL2aQ@mail.gmail.com>
+Subject: Fwd: hi
+To: dev dev <jkdlasjkfl4jkl@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000bfffda05b997240a"
+
+--000000000000bfffda05b997240a
+Content-Type: text/plain; charset="UTF-8"
+
+---------- Forwarded message ---------
+From: Jack DeVries <jdevries3133@gmail.com>
+Date: Sat, Jan 23, 2021 at 2:32 PM
+Subject: Re: hi
+To: dev dev <jkdlasjkfl4jkl@gmail.com>
+
+
+hello
+
+On Sat, Jan 23, 2021 at 2:32 PM dev dev <jkdlasjkfl4jkl@gmail.com> wrote:
+
+> hi
+>
+
+--000000000000bfffda05b997240a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">Jack DeVries</strong> <span dir=3D"aut=
+o">&lt;<a href=3D"mailto:jdevries3133@gmail.com">jdevries3133@gmail.com</a>=
+&gt;</span><br>Date: Sat, Jan 23, 2021 at 2:32 PM<br>Subject: Re: hi<br>To:=
+ dev dev &lt;<a href=3D"mailto:jkdlasjkfl4jkl@gmail.com">jkdlasjkfl4jkl@gma=
+il.com</a>&gt;<br></div><br><br><div dir=3D"ltr">hello</div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jan 23, 2021=
+ at 2:32 PM dev dev &lt;<a href=3D"mailto:jkdlasjkfl4jkl@gmail.com" target=
+=3D"_blank">jkdlasjkfl4jkl@gmail.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">hi</div>
+</blockquote></div>
+</div></div>
+
+--000000000000bfffda05b997240a--

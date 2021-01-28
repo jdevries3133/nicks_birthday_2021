@@ -1,4 +1,5 @@
 import unittest
+from time import sleep
 
 from ..control import Controller
 from ..executor import ArbitraryExecutor
@@ -19,6 +20,7 @@ class TestController(unittest.TestCase):
         self.assertEqual(self.controller.cur_puzzle, 2)
 
     def test_respond_to(self):
+        sleep(0.2)
         self.assertEqual(
             self.controller.respond_to('print("hello")'),
             'hello'

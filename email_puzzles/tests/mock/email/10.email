@@ -1,0 +1,81 @@
+Delivered-To: jkdlasjkfl4jkl@gmail.com
+Received: by 2002:a05:6838:78d2:0:0:0:0 with SMTP id bg18csp401207nkb;
+        Wed, 27 Jan 2021 14:09:55 -0800 (PST)
+X-Received: by 2002:a05:600c:2a47:: with SMTP id x7mr5799468wme.145.1611785395587;
+        Wed, 27 Jan 2021 14:09:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1611785395; cv=none;
+        d=google.com; s=arc-20160816;
+        b=t/q63mCz+/r/johSh5MurYbuXGCtowZpZTNLUg03SKXWzloDqcjKgJ7kIla7W5G2aU
+         VP/a5xMOV5Cc3MkhM/it1TX2934wWKY7GIv7RNeNGMaGpVqnrWkSKBbSxy2rtsjwD+M9
+         YSx4cF8djsXoMfONeguMi4ZcX8EaCwgfQKX6xWUxOkM31wLPPlx6f0N6GYsYdiqvmFwZ
+         Nua9T0x/kgIRdgCi7O0+sAyxSq5iunLqzX8/abUaGUeBvispWxypUi/F2i/FQYJoaiTz
+         Mr36q6UD3kuJL9kLfp4ZT1ZrCBLZiAZISVDOXsW8soBrVPDpNrkOnLCYYG4N/WOta8mG
+         3PLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=28NVdExmnQBaUO8wiT8//zgEKIocSe4ESWvfefu6r4Y=;
+        b=Hu+ZI3r88v9sNSF4v35Ho0rP5uSZnFEY/9IbbAF+4jyDtgcjzXVZQasMSoW53qMRC7
+         f82LwHiGZ9e9cQ2Re2adkocuh3UR7kPdfwgO/xu+XGm7N5cNcXMRNJvX8/yiM2vEW2KJ
+         GmAzCccECtmot9yNxjmli4/AU4+CBoZd+LCCtIvCFtxdpGSbsCMrmwe0NUh3fq5v+BTn
+         kREGW+llJNijos7cmA1LUo/24m78120w0dyYj8IIlxaKNt18p7COp8+Vql/XFvNgpwtQ
+         fXERygKU4gcd//V4n/8GzPmK+wjzo8+z0WIIJE7vPo/4BX+R/OXI3wVQXIz+7DVuR1YA
+         6nPQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b="izUj/p4/";
+       spf=pass (google.com: domain of jdevries3133@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=jdevries3133@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <jdevries3133@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id m4sor1852509wrr.31.2021.01.27.14.09.55
+        for <jkdlasjkfl4jkl@gmail.com>
+        (Google Transport Security);
+        Wed, 27 Jan 2021 14:09:55 -0800 (PST)
+Received-SPF: pass (google.com: domain of jdevries3133@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b="izUj/p4/";
+       spf=pass (google.com: domain of jdevries3133@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=jdevries3133@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=28NVdExmnQBaUO8wiT8//zgEKIocSe4ESWvfefu6r4Y=;
+        b=izUj/p4/LsKLMJe6H5c4EL6Y2PsPWKs5A9ENVyKpx64dmJquPB8AmFxmv9Uu0P0TZI
+         O4BN2XoFqwdfcL9xObnBCvOdaNoYVOxQM3Uoez4Ks8azlDGM/2+Xuh+BR7umXJ+Bu1Y+
+         dwsi071ZFSwY/zGGyr/5yelBUnOBj3t2geDGih+cN82uDso6GnltnRbyWBrzx8NAefW7
+         +YVN5BgI4WdgrMS7lsVqKi0vxkVcGZkkbGWqjFkCXzB8eAjgWSx8o54y92NH1MaqTS2k
+         hSiHjfw5Mtx1Uvgt27GpJpDWjFFNrqZCkgLB0wdplO2E11Pu8QH2zPEmY0ckcBTT5jtS
+         0boQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=28NVdExmnQBaUO8wiT8//zgEKIocSe4ESWvfefu6r4Y=;
+        b=pcrJIyQIFR7uQ0075biDv20g3Oos7tUQFU35KxZgSQu33Nek2SzpjdrUJTbymCXwdZ
+         L7P7cqOI4/pptOh6TolnuBy7gxXBbPBzcYFDDPzC+CpVypPCBEncRVhteQIX4DMivipd
+         aYwzma6RXfQubvTqtmqwiuE7VXHc8fMUaNTrhCq0CT3pyFg4g2IUxSli1ClakjJIyT2v
+         RvLfbCcrwHbEGhB3eQRpyJ+dFTyHey7a9m68MTPNRbjwFk70Oj62t7x9ymhr8KzT2aUy
+         IHgxYO7JeYkcWnGvRlVYob7qIZgUNlYo5iTwZ8/FTBisEOniiFZLgKtExYLwGgkaTajQ
+         r+VA==
+X-Gm-Message-State: AOAM533D+QsC4Tmxiyz68ERobYimeDBL5ahAXrK/dbxl+3qNcL1ni6TJ
+	Ew0LbHmdao+qKr/zsj8uAWCKr2j2UW7KUKYJeEulSg2bpxQ=
+X-Google-Smtp-Source: ABdhPJzQL4S97aarV1PPBtL//f6f2mNGmi/P5vYdCbEtPZKKHojIiFLaxZK5lHiyZGPwu365ZlO1ufDXBvCNmVEpaZc=
+X-Received: by 2002:a5d:44cc:: with SMTP id z12mr13001068wrr.7.1611785394922;
+ Wed, 27 Jan 2021 14:09:54 -0800 (PST)
+MIME-Version: 1.0
+From: Jack DeVries <jdevries3133@gmail.com>
+Date: Wed, 27 Jan 2021 17:09:44 -0500
+Message-ID: <CANarL_SWiY_7wyPtShCqzyccOB+AJpO+eAm=6spOZ_SuqUie4w@mail.gmail.com>
+Subject: hi
+To: dev dev <jkdlasjkfl4jkl@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000eb28a805b9e90753"
+
+--000000000000eb28a805b9e90753
+Content-Type: text/plain; charset="UTF-8"
+
+hello
+
+--000000000000eb28a805b9e90753
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">hello</div>
+
+--000000000000eb28a805b9e90753--

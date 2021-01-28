@@ -1,12 +1,14 @@
 import re
-from typing import Iterator
 import json
 from email import message_from_bytes
 import imaplib
+import logging
 from time import sleep
 from pathlib import Path
 
 from .control import Controller
+
+logger = logging.getLogger(__name__)
 
 with open(Path(Path(__file__).parent, 'secrets.json'), 'r') as jsonf:
     CREDENTIALS = json.load(jsonf)
@@ -27,29 +29,24 @@ class EmailBot:
         )
         self.controller = Controller()
         self.imap.select('inbox')
+        self._last_id = b''
 
     def listen(self):
         """
         Listen for and respond to emails by using the controller.
         """
         while True:
-            found = False
-            for id_, msg in self.iter_plain_txt_msg(criteria='NEW'):
-                found = True
+            new_id, msg = self.get_newest_message()
+            if new_id != self._last_id:
                 self.reply(
-                    id_,
+                    new_id,
                     self.controller.respond_to(msg)
                 )
-            if found:
-                print('found something')
-            else:
-                print('found nothing')
-            found = False
-            sleep(1)
+                self._last_id = new_id
+            sleep(10)
 
-    def reply(self, id_, msg):
-        print(f'replying to id_ {id_} with message {msg}')
-        ...
+    def reply(self, id_: bytes, msg: str):
+        logger.info(f'replying to id_ {id_} with message {msg}')
 
     @ refresh
     def get_newest_message(self) -> tuple:
@@ -66,7 +63,7 @@ class EmailBot:
         )
 
     @ refresh
-    def get_msg_subject(self, id_) -> str:
+    def get_msg_subject(self, id_: bytes) -> str:
         """
         Get the subject of a message for a given id.
         """
@@ -77,25 +74,6 @@ class EmailBot:
             if (mo := re.search(pattern, l)):
                 return mo[1]
         raise Exception('Email subject not found')
-
-    def iter_plain_txt_msg(self, criteria='ALL') -> Iterator[tuple]:
-        """
-        Generator that returns a tuple of the id and the plain text of each
-        message in the mailbox.
-        """
-        for id_ in self.iter_mailbox_ids(criteria=criteria):
-            data = self._get_msg_data(id_)
-            if isinstance(data, bytes):
-                yield id_, message_from_bytes(data).get_payload()[0].get_payload().strip()
-
-    @ refresh
-    def iter_mailbox_ids(self, criteria='ALL') -> Iterator[bytes]:
-        """
-        Generator that returns mailbox message ids most recent first
-        """
-        print(criteria)
-        for id_ in self.imap.search(None, criteria)[1][0].split()[::-1]:
-            yield id_
 
     @ refresh
     def _get_msg_data(self, id_) -> bytes:
