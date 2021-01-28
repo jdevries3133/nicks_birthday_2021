@@ -8,8 +8,8 @@ class Controller():
             ChessPuzzle(),
         ]
 
-    def get_response(self, s, dis_obj):
-        if(self._puzzles[0].check_answer(s, dis_obj)):
+    def get_response(self, s):
+        if(self._puzzles[0].check_answer(s)):
             return self.next_puzzle()
         return self._puzzles[0].puzzle_response(s)
 
