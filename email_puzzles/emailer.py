@@ -63,11 +63,10 @@ class EmailBot:
         )
 
     @ refresh
-    def get_msg_subject(self, id_: bytes) -> str:
+    def get_msg_subject(self, data: bytes) -> str:
         """
         Get the subject of a message for a given id.
         """
-        data = self._get_msg_data(id_)
         pattern = re.compile(r'^Subject: (.*)$')
         for l in str(data, encoding='ascii').split('\n'):
             l = l.strip()
