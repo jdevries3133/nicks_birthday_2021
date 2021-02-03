@@ -1,4 +1,15 @@
-from collections import namedtuple
+"""
+DO NOT ADD TO THIS TEST SUITE.
+
+I did not do mocking correctly here. It passes, but it might not continue to
+pass. Honestly, if it starts failing, it might be just as well to delete it
+or at least to significantly simplify the assertions which will at least keep
+the code being run.
+
+Because mocking is wrong, the test suite goes out to the network every time,
+so it's ultimately dependent on what is in the email inbox and ultimately
+just gets very gnarly.
+"""
 from typing import NamedTuple, Iterator, Type
 from email import message_from_bytes
 import unittest
@@ -65,7 +76,7 @@ class TestEmailBot(unittest.TestCase):
             )
 
     def test_get_newest_message(self):
-        for expect_id, expect_eml, mockcls in self.get_mock():
+        for expect_id, expect_eml, mockcls in self.get_mock():  # type: ignore
             self.emailer.imap = mockcls
             id_, eml = self.emailer.get_newest_message()
             self.assertEqual(id_, expect_id)
@@ -84,10 +95,68 @@ class TestEmailBot(unittest.TestCase):
             'Critical security alert',
             'Dev, finish setting up your new Google Account',
         ]
-        for i, mockdata in enumerate(self.get_mock()):
+        for i, mockdata in enumerate(self.get_mock()):  # type: ignore
             expect_id, expect_eml, mockcls = mockdata
             self.emailer.imap = mockcls
             subject = self.emailer.get_msg_subject(
                 self.emailer._get_msg_data(expect_id)
             )
             self.assertEqual(subject, subjects[i])
+
+    def test_get_msg_sender(self):
+        senders = [
+            'jdevries3133@gmail.com',
+            'jdevries3133@gmail.com',
+            'jdevries3133@gmail.com',
+            'jdevries3133@gmail.com',
+            'jdevries3133@gmail.com',
+            'jdevries3133@gmail.com',
+            'no-reply@accounts.google.com',
+            'no-reply@accounts.google.com',
+            'no-reply@accounts.google.com',
+            'googlecommunityteam-noreply@google.com',
+        ]
+        for i, mockdata in enumerate(self.get_mock()):
+            expect_id, expect_eml, mockcls = mockdata
+            self.emailer.imap = mockcls
+            sender = (
+                self.emailer.get_msg_sender(
+                    self.emailer._get_msg_data(expect_id)
+                )
+            )
+            self.assertEqual(sender, senders[i])
+
+    @ patch('smtplib.SMTP_SSL')
+    def test_reply(self, smtp_mock):
+        smtp_mock.sendmail.return_value = None
+        self.emailer.smtp.connection = smtp_mock
+        expect_id, _, mockcls = next(self.get_mock())
+        self.emailer.imap = mockcls
+        self.emailer.reply(expect_id, 'Hello!')
+        self.assertEqual(
+            'login',
+            smtp_mock.mock_calls[1][0][3:]
+        )
+        self.assertEqual(
+            smtp_mock.mock_calls[2][0][3:],
+            'sendmail'
+        )
+        self.assertEqual(
+            smtp_mock.mock_calls[2][1][0],
+            'jdevries3133@gmail.com'
+        )
+        self.assertEqual(
+            smtp_mock.mock_calls[2][1][1],
+            'jkdlasjkfl4jkl@gmail.com'
+        )
+        self.assertEqual(
+            smtp_mock.mock_calls[2][1][2],
+            (
+                'Content-Type: text/plain; charset="us-ascii"\nMIME-Version: '
+                '1.0\nContent-Transfer-Encoding: 7bit\nSubject: hi\n'
+                'From: jkdlasjkfl4jkl@gmail.com\n'
+                'To: jdevries3133@gmail.com\n\n'
+                'Hello!'
+            )
+        )
+        smtp_mock.reset_mock()
