@@ -3,7 +3,7 @@ from typing import NamedTuple
 import json
 import ssl
 from email import message_from_bytes
-from email.mime.text import MIMEText
+from email.message import EmailMessage
 import imaplib
 import logging
 from time import sleep
@@ -47,11 +47,19 @@ class EmailSender:
         self.connection.close()
 
     def email(self, *, to: str, from_:str, subject: str, msg_text: str) -> None:
-        msg = MIMEText(msg_text)
+        logger.debug(f'{self.username}, {to}')
+        if self.username in to:
+            logger.info('Skipping email to myself to prevent a loop')
+            logger.debug(f'Msg text: {msg_text}')
+            return
+        msg = EmailMessage()
+        msg.set_content(msg_text)
         msg['Subject'] = subject
         msg['From'] = from_
         msg['To'] = to
         self.connection.sendmail(to, from_, msg.as_string())
+        logger.info(f'Sent message to {to} as {from_} with subject, "{subject}"')
+        logger.debug(f'Message text: {msg_text}')
 
 
 class EmailBot:
@@ -69,6 +77,7 @@ class EmailBot:
         self.controller = Controller()
         self.imap.select('inbox')
         self._last_id = b''
+        self.WAIT = 10  # seconds to wait between email checks
 
     def listen(self):
         """
@@ -82,7 +91,7 @@ class EmailBot:
                     self.controller.respond_to(msg)
                 )
                 self._last_id = new_id
-            sleep(10)
+            sleep(self.WAIT)
 
     def reply(self, id_: bytes, msg: str):
         data = self._get_msg_data(id_)
@@ -96,18 +105,22 @@ class EmailBot:
         logger.info(f'replying to id_ {id_} with message {msg}')
 
     @ refresh
-    def get_newest_message(self) -> tuple:
+    def get_newest_message(self) -> NamedTuple:
         """
         Returns tuple of the id and message text as a string.
         """
-        return (
-            last_id := self.imap.search(None, 'ALL')[1][0].split()[-1],
-            message_from_bytes(
-                self._get_msg_data(
-                    last_id
-                )
-            ).get_payload()[0].get_payload().strip()
-        )
+        class NewestMessage(NamedTuple):
+            last_id: bytes
+            message: str
+        last_id = self.imap.search(None, 'ALL')[1][0].split()[-1]
+        msg = message_from_bytes(
+            self._get_msg_data(
+                last_id
+            )
+        ).get_payload()
+        if isinstance(msg, str):
+            return NewestMessage(last_id, msg)
+        return NewestMessage(last_id, msg[0].get_payload().strip())
 
     def get_msg_detail(self, id_: bytes) -> NamedTuple:
         class MsgDetail(NamedTuple):
@@ -133,18 +146,21 @@ class EmailBot:
         """
         Parse the sender from a message.
         """
-        return self._email_regsearch(
+        sender =  self._email_regsearch(
             data=data,
-            pattern=r'From: (.*)<(.*)>',
-            mo_num=2
+            pattern=r'From: (.*)',
+            mo_num=1
         )
+        if '<' in sender and '>' in sender:
+            return re.search('<(.*)>', sender)[1]
+        return sender
 
     @ staticmethod
     def _email_regsearch(*, data: bytes, pattern: str, mo_num: int) -> str:
         pattern_ = re.compile(pattern)
         for l in str(data, encoding='utf-8').split('\n'):
             l = l.strip()
-            if (mo := re.search(pattern_, l)):
+            if mo := re.search(pattern_, l):
                 return mo[mo_num]
         raise Exception(f'No match for {pattern}')
 

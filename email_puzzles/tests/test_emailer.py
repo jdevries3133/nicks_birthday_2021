@@ -1,16 +1,4 @@
-"""
-DO NOT ADD TO THIS TEST SUITE.
-
-I did not do mocking correctly here. It passes, but it might not continue to
-pass. Honestly, if it starts failing, it might be just as well to delete it
-or at least to significantly simplify the assertions which will at least keep
-the code being run.
-
-Because mocking is wrong, the test suite goes out to the network every time,
-so it's ultimately dependent on what is in the email inbox and ultimately
-just gets very gnarly.
-"""
-from typing import NamedTuple, Iterator, Type
+from typing import NamedTuple, Iterator
 from email import message_from_bytes
 import unittest
 from unittest.mock import patch, MagicMock
@@ -21,7 +9,8 @@ from ..emailer import EmailBot
 
 class TestEmailBot(unittest.TestCase):
 
-    def setUp(self):
+    @ patch('email_puzzles.emailer.imaplib')
+    def setUp(self, imap_mock):
         self.emailer = EmailBot()
 
     @ staticmethod
@@ -126,20 +115,19 @@ class TestEmailBot(unittest.TestCase):
             )
             self.assertEqual(sender, senders[i])
 
-    @ patch('smtplib.SMTP_SSL')
+    @ patch('email_puzzles.emailer.smtplib')
     def test_reply(self, smtp_mock):
-        smtp_mock.sendmail.return_value = None
-        self.emailer.smtp.connection = smtp_mock
+        # smtp_mock.sendmail.return_value = None
         expect_id, _, mockcls = next(self.get_mock())
         self.emailer.imap = mockcls
         self.emailer.reply(expect_id, 'Hello!')
         self.assertEqual(
-            'login',
-            smtp_mock.mock_calls[1][0][3:]
+            'SMTP_SSL().login',
+            smtp_mock.mock_calls[1][0]
         )
         self.assertEqual(
-            smtp_mock.mock_calls[2][0][3:],
-            'sendmail'
+            smtp_mock.mock_calls[2][0],
+            'SMTP_SSL().sendmail'
         )
         self.assertEqual(
             smtp_mock.mock_calls[2][1][0],
@@ -151,12 +139,12 @@ class TestEmailBot(unittest.TestCase):
         )
         self.assertEqual(
             smtp_mock.mock_calls[2][1][2],
-            (
-                'Content-Type: text/plain; charset="us-ascii"\nMIME-Version: '
-                '1.0\nContent-Transfer-Encoding: 7bit\nSubject: hi\n'
-                'From: jkdlasjkfl4jkl@gmail.com\n'
-                'To: jdevries3133@gmail.com\n\n'
-                'Hello!'
-            )
+            'Content-Type: text/plain; charset="utf-8"\n'
+            'Content-Transfer-Encoding: 7bit\n'
+            'MIME-Version: 1.0\n'
+            'Subject: hi\n'
+            'From: jkdlasjkfl4jkl@gmail.com\n'
+            'To: jdevries3133@gmail.com\n\n'
+            'Hello!\n'
         )
         smtp_mock.reset_mock()
