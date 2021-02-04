@@ -1,9 +1,16 @@
 import time
 import unittest
 
+import pytest
+
 from ..executor import ArbitraryExecutor
 
+@ pytest.mark.slow
 class TestArbitraryExecutor(unittest.TestCase):
+    """
+    Integration test that actually reaches out to the API and ensures code
+    is executed.
+    """
 
     @ classmethod
     def setUpClass(cls):
