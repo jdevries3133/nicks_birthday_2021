@@ -10,7 +10,10 @@ class TestController(unittest.TestCase):
     # must use same executor instance throughout to protect from rate
     # limiting.
     executor = ArbitraryExecutor()
-    sleep(0.2)
+
+    def __init__(self, *a, **kw):
+        super().__init__(*a, **kw)
+        sleep(0.3)
 
     def setUp(self):
         self.controller = Controller()
