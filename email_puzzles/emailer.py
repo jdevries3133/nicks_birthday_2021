@@ -2,6 +2,7 @@ import re
 from typing import NamedTuple
 import json
 import ssl
+import os
 from email import message_from_bytes
 from email.message import EmailMessage
 import imaplib
@@ -9,20 +10,16 @@ import logging
 from time import sleep
 import smtplib
 from pathlib import Path
+from unittest.mock import MagicMock
 
 from .control import Controller
 
 logger = logging.getLogger(__name__)
 
+BASE_DIR = Path(__file__).parent
+
 with open(Path(Path(__file__).parent, 'secrets.json'), 'r') as jsonf:
     CREDENTIALS = json.load(jsonf)
-
-
-def refresh(func):
-    def wrapper(*args, **kw):
-        args[0].imap.select('inbox')
-        return func(*args, **kw)
-    return wrapper
 
 class EmailSender:
     def __init__(self, username: str, password: str):
@@ -61,8 +58,19 @@ class EmailSender:
         logger.info(f'Sent message to {to} as {from_} with subject, "{subject}"')
         logger.debug(f'Message text: {msg_text}')
 
+def refresh(func):
+    """
+    Refresh the email inbox before running this method.
+    """
+    def wrapper(*args, **kw):
+        args[0].imap.select('inbox')
+        return func(*args, **kw)
+    return wrapper
 
 class EmailBot:
+
+    _last_id_cache_file = Path(BASE_DIR, 'last_id.json')
+
     def __init__(self):
         self.imap = imaplib.IMAP4_SSL('imap.gmail.com', 993)
         self.username = CREDENTIALS.get('username')
@@ -77,7 +85,18 @@ class EmailBot:
         self.controller = Controller()
         self.imap.select('inbox')
         self._last_id = b''
+        if os.path.exists(self._last_id_cache_file):
+            with open(self._last_id_cache_file, 'r') as cachef:
+                self._last_id = bytes(json.load(cachef)['lastId'], 'utf-8')
         self.WAIT = 10  # seconds to wait between email checks
+
+    def __setattr__(self, name, value):
+        if name == '_last_id':
+            with open(self._last_id_cache_file, 'w') as jsonf:
+                json.dump({'lastId': str(value, 'utf-8')}, jsonf)
+            self.__dict__['_last_id'] = value
+            return
+        return super().__setattr__(name, value)
 
     def listen(self):
         """

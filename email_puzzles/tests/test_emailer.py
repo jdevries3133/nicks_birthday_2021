@@ -1,14 +1,22 @@
+import json
+from io import StringIO
 from typing import NamedTuple, Iterator
 from email import message_from_bytes
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, mock_open
 
 from pathlib import Path
 
 from ..emailer import EmailBot
 
+@ patch('email_puzzles.emailer.open', mock_open(read_data=json.dumps({
+    'lastId': '13'
+})))
 class TestEmailBot(unittest.TestCase):
 
+    @ patch('email_puzzles.emailer.open', mock_open(read_data=json.dumps({
+        'lastId': '13'
+    })))
     @ patch('email_puzzles.emailer.imaplib')
     def setUp(self, imap_mock):
         self.emailer = EmailBot()
@@ -148,3 +156,36 @@ class TestEmailBot(unittest.TestCase):
             'Hello!\n'
         )
         smtp_mock.reset_mock()
+
+    @ patch('email_puzzles.emailer.os.path.exists', return_value=True)
+    def test_last_id_cache_read(self, *_):
+        with patch(
+            'email_puzzles.emailer.open',
+            mock_open(read_data=json.dumps(
+                {
+                    'lastId': '11'
+                }),
+            )
+        ) as mock_file:
+            emailer = EmailBot()
+            self.assertEqual(emailer._last_id, b'11')
+
+    def test_last_id_cache_written_on_setattr(self):
+        with patch(
+            'email_puzzles.emailer.open',
+            mock_open(read_data=json.dumps(
+                {
+                    'lastId': '13'
+                })
+            )
+        ) as mock_file:
+            emailer = EmailBot()
+            mock_file.reset_mock()
+            emailer._last_id = b'13'
+            handle = mock_file()
+            expected_calls = ['{', '"lastId"', ': ', '"13"', '}']
+            for expect, actual in zip(expected_calls, handle.write.mock_calls):
+                self.assertEqual(
+                    expect,
+                    actual[1][0]
+                )
