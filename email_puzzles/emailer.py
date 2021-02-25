@@ -22,6 +22,10 @@ with open(Path(Path(__file__).parent, 'secrets.json'), 'r') as jsonf:
     CREDENTIALS = json.load(jsonf)
 
 class EmailSender:
+    """
+    Use smtplib to send emails. A smtp connection must be managed and
+    instantiated separately from the imap connection in the class below.
+    """
     def __init__(self, username: str, password: str):
         self.username = username
         self.password = password
@@ -44,17 +48,16 @@ class EmailSender:
         self.connection.close()
 
     def email(self, *, to: str, from_:str, subject: str, msg_text: str) -> None:
-        logger.debug(f'{self.username}, {to}')
+        logger.debug(f'sending email from {self.username} to {to}')
         if self.username in to:
             logger.info('Skipping email to myself to prevent a loop')
-            logger.debug(f'Msg text: {msg_text}')
             return
         msg = EmailMessage()
         msg.set_content(msg_text)
         msg['Subject'] = subject
         msg['From'] = from_
         msg['To'] = to
-        self.connection.sendmail(to, from_, msg.as_string())
+        self.connection.sendmail(from_, to, msg.as_string())
         logger.info(f'Sent message to {to} as {from_} with subject, "{subject}"')
         logger.debug(f'Message text: {msg_text}')
 
@@ -68,6 +71,10 @@ def refresh(func):
     return wrapper
 
 class EmailBot:
+    """
+    Use imaplib to poll for new emails and ask the controller for a response
+    if needed.
+    """
 
     _last_id_cache_file = Path(BASE_DIR, 'last_id.json')
 
@@ -84,14 +91,17 @@ class EmailBot:
         )
         self.controller = Controller()
         self.imap.select('inbox')
-        self._last_id = b''
         if os.path.exists(self._last_id_cache_file):
             with open(self._last_id_cache_file, 'r') as cachef:
                 self._last_id = bytes(json.load(cachef)['lastId'], 'utf-8')
-        self.WAIT = 10  # seconds to wait between email checks
+        else:
+            self._last_id = b'0'
 
-    def __setattr__(self, name, value):
-        if name == '_last_id':
+        self.WAIT = 10  # email polling interval
+        logger.debug(f'initialized with last_id {self._last_id}')
+
+    def __setattr__(self, name, value, *, init=False):
+        if name == '_last_id' and not init:
             with open(self._last_id_cache_file, 'w') as jsonf:
                 json.dump({'lastId': str(value, 'utf-8')}, jsonf)
             self.__dict__['_last_id'] = value
@@ -103,14 +113,15 @@ class EmailBot:
         Listen for and respond to emails by using the controller.
         """
         while True:
+            sleep(self.WAIT)
             new_id, msg = self.get_newest_message()
             if new_id != self._last_id:
+                self._print_msg_recieved(new_id)
                 self.reply(
                     new_id,
                     self.controller.respond_to(msg)
                 )
                 self._last_id = new_id
-            sleep(self.WAIT)
 
     def reply(self, id_: bytes, msg: str):
         data = self._get_msg_data(id_)
@@ -118,10 +129,10 @@ class EmailBot:
             send.email(
                 to=self.get_msg_sender(data),
                 from_=f'{self.username}@gmail.com',
-                subject=self.get_msg_subject(data),
+                subject=f'Re: {self.get_msg_subject(data)}',
                 msg_text=msg
             )
-        logger.info(f'replying to id_ {id_} with message {msg}')
+        logger.info(f'replying to id {id_} with message {msg}')
 
     @ refresh
     def get_newest_message(self) -> NamedTuple:
@@ -172,7 +183,15 @@ class EmailBot:
         )
         if '<' in sender and '>' in sender:
             return re.search('<(.*)>', sender)[1]
+        logger.debug(f'message sender was {sender}')
         return sender
+
+    @ refresh
+    def _get_msg_data(self, id_) -> bytes:
+        data = self.imap.fetch(id_, '(RFC822)')[1][0][1]
+        if isinstance(data, bytes):
+            return data
+        return b''
 
     @ staticmethod
     def _email_regsearch(*, data: bytes, pattern: str, mo_num: int) -> str:
@@ -183,9 +202,11 @@ class EmailBot:
                 return mo[mo_num]
         raise Exception(f'No match for {pattern}')
 
-    @ refresh
-    def _get_msg_data(self, id_) -> bytes:
-        data = self.imap.fetch(id_, '(RFC822)')[1][0][1]
-        if isinstance(data, bytes):
-            return data
-        return b''
+
+    @ staticmethod
+    def _print_msg_recieved(new_id: bytes) -> None:
+        print(
+            ('*' * 30)
+            + f' NEW MESSAGE RECIEVED (id: {new_id} '
+            + ('*' * 30)
+        )

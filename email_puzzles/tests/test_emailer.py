@@ -139,18 +139,18 @@ class TestEmailBot(unittest.TestCase):
         )
         self.assertEqual(
             smtp_mock.mock_calls[2][1][0],
-            'jdevries3133@gmail.com'
+            'jkdlasjkfl4jkl@gmail.com'
         )
         self.assertEqual(
             smtp_mock.mock_calls[2][1][1],
-            'jkdlasjkfl4jkl@gmail.com'
+            'jdevries3133@gmail.com'
         )
         self.assertEqual(
             smtp_mock.mock_calls[2][1][2],
             'Content-Type: text/plain; charset="utf-8"\n'
             'Content-Transfer-Encoding: 7bit\n'
             'MIME-Version: 1.0\n'
-            'Subject: hi\n'
+            'Subject: Re: hi\n'
             'From: jkdlasjkfl4jkl@gmail.com\n'
             'To: jdevries3133@gmail.com\n\n'
             'Hello!\n'
