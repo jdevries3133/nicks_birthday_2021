@@ -11,6 +11,6 @@ class Puzzle(ABC):
     @abstractmethod
     def check_answer(self, s):
         """
-        This Method checks to see if the puzzle is complete and returns a 
+        This Method checks to see if the puzzle is complete and returns a
         boolean value
         """

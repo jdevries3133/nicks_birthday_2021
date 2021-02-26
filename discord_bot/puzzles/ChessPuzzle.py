@@ -5,6 +5,6 @@ class ChessPuzzle(Puzzle):
         super().__init__('Help me out with this CHESS URL HERE')
 
     def check_answer(self, s):
-    	return True
+        return True
 
     #TODO:finish puzzle
