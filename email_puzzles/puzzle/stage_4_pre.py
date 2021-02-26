@@ -2,9 +2,18 @@
 Code to be injected for the fourth stage.
 """
 
-__doc__ == ''
+__doc__ = ''
 
 
+def open(path, mode='r', *a, **kw):
+    if 'b' in mode:
+        from io import BytesIO
+        return BytesIO(b'Nice try ya sneaky binary bastard')
+    else:
+        from io import StringIO
+        return StringIO('Nice try ya sneaky bastard')
+
+__builtins__.open = open  # type: ignore
 
 class int(int):
 
@@ -19,21 +28,18 @@ class int(int):
     ]
 
     def sass(self):
-        return self.sassy_responses[self.randint(0, len(self.sassy_responses) - 1)]
+        return self.sassy_responses[self.randint(
+            0,
+            len(self.sassy_responses) - 1  # type: ignore
+        )]
 
     def __getattribute__(self, name, *a, **kw):
         if name in ['sass', 'randint', 'sassy_responses']:
             return super().__getattribute__(name, *a, **kw)
         return self.sass()
 
-    def __repr__(self):
-        return self.sass()
-
     def __name__(self):
         return 'int'
-
-    def __add__(self, *a, **kw):
-        return self.sass()
 
     def __abs__(self, *a, **kw):
         return self.sass()
@@ -98,8 +104,8 @@ class int(int):
     def __index__(self, *a, **kw):
         return self.sass()
 
-    def __init_subclass__(self, *a, **kw):
-        return self.sass()
+    def __init_subclass__(cls, *a, **kw):
+        return cls()
 
     def __int__(self, *a, **kw):
         return self.sass()
@@ -123,9 +129,6 @@ class int(int):
         return self.sass()
 
     def __mul__ (self, *a, **kw):
-        return self.sass()
-
-    def __name__(self, *a, **kw):
         return self.sass()
 
     def __ne__(self, *a, **kw):
