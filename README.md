@@ -4,7 +4,12 @@ A tech-based birthday puzzle
 
 # Overview
 
-The challenge will be based on interacting with an email bot.
+The challenge will be in three stages, each corresponding to a conversation
+with a different chat bot:
+
+- Discord
+- Email
+- Physical mail
 
 # Overall Flow
 
@@ -94,7 +99,12 @@ Why is the emailer send back tracebacks?? Is this thing executing code?
 The emails recieved will be directly executed inside an arbitrary code
 execution engine. The execution environment will include things in
 the local scope which Nick must inspect, discover, and interact with. `stdout`
-will be his inbox.
+and `stderr` will be his inbox.
+
+There will actually be four puzzles here of increasing complexity. The puzzle
+will be solved and advanced when Nick is able to get the right information
+into the program input, but he may have to uncover hidden secrets from
+data in the scope of the program before that will be possible.
 
 _Other Notes_
 
@@ -106,3 +116,6 @@ Mail bot can be thought of as the "final boss." For these puzzles, Nick
 will have to wait days to find out if his clue was correct. If the messages
 are long and/or encrypted, he will have to type them accurately before
 he can work with them programmatically.
+
+[This API](https://developers.clicksend.com/docs/rest/v3/#ClickSend-v3-API-Post-Letter)
+is what we will use.
