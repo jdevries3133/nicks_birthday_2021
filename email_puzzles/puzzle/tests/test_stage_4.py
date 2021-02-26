@@ -2,7 +2,7 @@ import ctypes
 from time import sleep
 import unittest
 
-from ..stage_4_pre import number
+from ..stage_4 import number
 
 
 class TestStageFour(unittest.TestCase):

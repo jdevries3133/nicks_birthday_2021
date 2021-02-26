@@ -11,7 +11,10 @@ def open(path, mode='r', *a, **kw):
         from io import StringIO
         return StringIO('Nice try ya sneaky bastard')
 
-__builtins__.open = open  # type: ignore
+# __builtins__['open'] = open  # type: ignore
+# TODO: this breaks the whole world but it must be done; maybe inject
+# dynamically rather than hard coding
+# __builtins__['open'] = open  # type: ignore
 
 # rule of threes; he will expect to need to print challenge again
 chollenge = (

@@ -82,7 +82,7 @@ class Controller:
                 with open(
                     Path(
                         self.puzzle_dir,
-                        f'stage_{stage_id}_pre.py'
+                        f'stage_{stage_id}.py'
                     ), 'r'
                 ) as stagef:
                     exec_before += '\n' + stagef.read()

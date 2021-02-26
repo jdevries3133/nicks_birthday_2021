@@ -41,6 +41,6 @@ class ArbitraryExecutor:
         """
         Block until rate limit has been satistifed.
         """
-        while time.time() - self.last_call < 0.3:
+        while time.time() - self.last_call < 0.5:
             pass
         self.last_call = time.time()
