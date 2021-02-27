@@ -31,6 +31,12 @@ class ArbitraryExecutor:
                 }
             )
             if not res.ok:
+                # the rate limit on this api is broken. Even though we are
+                # waiting 0.3s between requests, I still get rate limit
+                # exceeded responses. It usually works on the second try,
+                # though; hence the recursive solution.
+                if self._is_rate_limit_exceeded(res):
+                    return self.execute(code, lang, args)
                 raise EmkcApiUnavailable(
                     f'Bad response code from code execution API: "{res.json()["message"]}"'
                 )
@@ -39,6 +45,9 @@ class ArbitraryExecutor:
                 'Could not connect to code execution API.'
             )
         return res.json()
+
+    def _is_rate_limit_exceeded(self, response) -> bool:
+        return 'Requests limited to 5 per second' in response.json()['message']
 
     def _await_rate_limit(self) -> None:
         """
