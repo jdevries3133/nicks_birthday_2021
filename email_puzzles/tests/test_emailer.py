@@ -18,7 +18,8 @@ class TestEmailBot(unittest.TestCase):
         'lastId': '13'
     })))
     @ patch('email_puzzles.emailer.imaplib')
-    def setUp(self, imap_mock):
+    @ patch('email_puzzles.emailer.smtplib')
+    def setUp(self, imap_mock, smtp_mock):
         self.emailer = EmailBot()
 
     @ staticmethod
