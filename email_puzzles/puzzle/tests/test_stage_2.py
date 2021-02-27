@@ -12,8 +12,11 @@ class TestStageTwo(TestCase):
 
     # --- forrest (str) ---
 
-    def test_f(self):
-        ...
+    def test__dict__hidden(self):
+        self.assertNotIn(
+            'messages',
+            forrest.__dict__
+        )
 
     # --- jack (set) ---
 
