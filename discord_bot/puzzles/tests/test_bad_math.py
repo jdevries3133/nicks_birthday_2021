@@ -33,3 +33,9 @@ class TestBadMath(unittest.TestCase):
         s = "-dogshittrashgarbage + -dogshit - garbage * garbage"
         i = self.my_math.eval_stmt(s)
         assert i == '-dogshitgarbagedogshit'
+
+    # Test i am sad
+    def test_response(self):
+        s = "-dogshittrashgarbage + -dogshit - garbage * garbage"
+        i = self.my_math.puzzle_response(s)
+        assert i == '-dogshitgarbagedogshit'

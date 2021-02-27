@@ -22,5 +22,6 @@ class NickBot(discord.Client):
 
             res = self.control.get_response(message.content)
             if res:
+                print(res)
                 await message.channel.send(res)
 

@@ -2,14 +2,14 @@ import unittest
 
 from ..Controller import Controller
 
-from ..puzzles import ServerStartup, ChessPuzzle
+from ..puzzles import BadMath, ChessPuzzle
 from ..puzzles.Puzzle import Puzzle
 
 
 class TestController(unittest.TestCase):
 
     puzzle_sequence = [
-        ServerStartup,
+        BadMath,
         ChessPuzzle,
     ]
 

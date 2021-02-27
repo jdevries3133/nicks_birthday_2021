@@ -10,8 +10,8 @@ class BadMath(Puzzle):
         """
         return self.eval_stmt(s) == 100
 
-    def get_response(self, s):
-        return self.eval_stmt()
+    def puzzle_response(self, s):
+        return self.eval_stmt(s)
 
     def eval_stmt(self, s):
         nums = ['trash', 'dogshit', 'garbage']
