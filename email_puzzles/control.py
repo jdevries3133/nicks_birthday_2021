@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from .executor import ArbitraryExecutor
+from .puzzle import break_workarounds
 
 class Controller:
     """
@@ -76,7 +77,8 @@ class Controller:
         Create the string of python code that will be executed before
         Nick's code.
         """
-        exec_before = ''
+        # code snippet to prevent premature puzzle solving
+        exec_before = break_workarounds.restrict_builtins
         for stage_id in range(1, self.cur_puzzle + 1):
             if stage_id:
                 with open(
