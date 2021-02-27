@@ -23,6 +23,8 @@ class BadMath(Puzzle):
         s = self.clean_stmt(s)
         try:
             i  =  eval(s)
+            if not isinstance(i, int):
+                return 'ARITHMATIC ERROR'
             if i == 0:
                 return nums[0]
             if i < 0:
