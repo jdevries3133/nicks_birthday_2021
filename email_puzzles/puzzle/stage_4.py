@@ -4,6 +4,7 @@ Code to be injected for the fourth stage.
 
 __doc__ = ''
 
+
 class int(int):
 
     from random import randint
@@ -26,9 +27,6 @@ class int(int):
         if name in ['sass', 'randint', 'sassy_responses']:
             return super().__getattribute__(name, *a, **kw)
         return self.sass()
-
-    def __name__(self):
-        return 'int'
 
     def __abs__(self, *a, **kw):
         return self.sass()

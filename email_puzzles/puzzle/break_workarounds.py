@@ -15,6 +15,7 @@ __builtins__ = {
     'help': help,
     'locals': locals,
     'globals': globals,
+    'type': type,
 }
 """
 
