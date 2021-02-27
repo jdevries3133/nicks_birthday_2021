@@ -33,16 +33,16 @@ class BadMath(Puzzle):
                 lst.append(nums[r])
             rtn += ''.join(reversed(lst))
             return rtn
-        except NameError:
+        except Exception:
             return 'ARITHMATIC ERROR'
 
     def clean_stmt(self, s):
         num_lst = []
+        tokens = ['trash', 'dogshit', 'garbage', '+', '-', '*', '/']
         rtn = ''
         lst = re.split(r'(trash|dogshit|garbage|\+|-|\*|\/)', s)
         print(lst)
-        lst = list(filter(None, lst))
-        lst = list(filter(lambda x: x != " ", lst))
+        lst = list(filter(lambda x: x in tokens, lst))
         print(lst)
         for tok in lst:
             if tok == 'trash' or tok == 'dogshit' or  tok == 'garbage':
