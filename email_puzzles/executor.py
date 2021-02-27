@@ -9,6 +9,7 @@ class EmkcApiUnavailable(ConnectionError):
 class ArbitraryExecutor:
     def __init__(self):
         self.last_call = time.time() - 0.2
+        self.session = requests.Session()
 
     def execute(self, code: str, lang: str='python3', args: list=None) -> dict:
         """
@@ -17,7 +18,7 @@ class ArbitraryExecutor:
         """
         try:
             self._await_rate_limit()
-            res = requests.post(
+            res = self.session.post(
                 'https://emkc.org/api/v1/piston/execute/',
                 {
                     "language": lang,
