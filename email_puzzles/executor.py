@@ -2,13 +2,16 @@ import time
 
 import requests
 
+# seconds to wait between api calls.
+RATE_LIMIT_SLEEP_TIME = 0.3
+
 class EmkcApiUnavailable(ConnectionError):
     pass
 
 
 class ArbitraryExecutor:
     def __init__(self):
-        self.last_call = time.time() - 0.2
+        self.last_call = time.time() - RATE_LIMIT_SLEEP_TIME
         self.session = requests.Session()
 
     def execute(self, code: str, lang: str='python3', args: list=None) -> dict:
@@ -41,6 +44,6 @@ class ArbitraryExecutor:
         """
         Block until rate limit has been satistifed.
         """
-        while time.time() - self.last_call < 0.5:
+        while time.time() - self.last_call < RATE_LIMIT_SLEEP_TIME:
             pass
         self.last_call = time.time()
