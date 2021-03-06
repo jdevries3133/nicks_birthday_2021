@@ -8,6 +8,19 @@ logger = logging.getLogger(__name__)
 
 class BadMath(Puzzle):
 
+    def __init__(self):
+        super().__init__()
+        self.prompt = (
+            'Why hello there, I have come up with a brand new system of'
+            ' mathematics! It features everything you love about old'
+            ' math, addition, subtraction, multiplication, and division'
+            ' but with a fun twist. Why don\'t you give it a try?'
+            ' Write something that gives you 100 in this NEW MATH and,'
+            ' I\'ll give you the key to the next step of this challenge.'
+            ' Fair warning, my numbers are dogshit, but you should be able'
+            ' to figure it out. '
+        )
+
     def check_answer(self, answer: str) -> bool:
         """
         WARNING: this one takes s as a string

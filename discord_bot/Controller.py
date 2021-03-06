@@ -1,21 +1,13 @@
 from typing import Union
 
-from .puzzles import BadMath
+from .puzzles import BadMath, BaseMode
 import discord
 
 class Controller():
     def __init__(self):
         self._puzzles = [
-            BadMath(
-                'Why hello there, I have come up with a brand new system of'
-                ' mathematics! It features everything you love about old'
-                ' math, addition, subtraction, multiplication, and division'
-                ' but with a fun twist. Why don\'t you give it a try?'
-                ' Write something that gives you 100 in this NEW MATH and,'
-                ' I\'ll give you the key to the next step of this challenge.'
-                ' Fair warning, my numbers are dogshit, but you should be able'
-                ' to figure it out. '
-            )
+            BadMath(),
+            BaseMode()
         ]
 
     def get_response(self, s):

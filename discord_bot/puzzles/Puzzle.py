@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 
 class Puzzle(ABC):
-    def __init__(self, prompt):
-        self.prompt = prompt
+    def __init__(self):
         self.commands = []
 
     @ abstractmethod
