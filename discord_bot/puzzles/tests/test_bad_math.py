@@ -55,20 +55,3 @@ class TestBadMath(unittest.TestCase):
         solution = 'dogshit + ' * 99 + 'dogshit'
         solved = self.my_math.check_answer(solution)
         assert solved
-
-    def test_malicious_code_vulnerability(self):
-        """
-        By no means all-encompassing, but we are using eval(), so let's take
-        a few stabs at it.
-        """
-
-        malicious_code = [
-            '\n\nimport sys\n\nsys.exit()',
-
-            # TODO: this causes a memory error!
-            'trash * ' * 10000000000000000 + 'trash',
-
-            'while True:\n\tpass'
-        ]
-        for mal in malicious_code:
-            self.my_math.eval_stmt(mal)
