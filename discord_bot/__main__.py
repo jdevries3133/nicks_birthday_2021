@@ -1,13 +1,18 @@
+import logging
 import configparser
 from .bot import NickBot
 from  pathlib import Path
 
-config = configparser.ConfigParser()
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=[logging.StreamHandler()],
+    format='%(pathname)s:%(lineno)s\n\t%(module)s::%(message)s'
+)
 
+config = configparser.ConfigParser()
 config.read(Path(Path(__file__).parent, 'secrets.ini'))
 
 user = config['DISCORD']['user']
 
-if __name__ == '__main__':
-    client = NickBot(user)
-    client.run(config['DISCORD']['bot_token'])
+client = NickBot(user)
+client.run(config['DISCORD']['bot_token'])
