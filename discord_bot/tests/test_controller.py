@@ -2,7 +2,7 @@ import unittest
 
 from ..controller import Controller
 
-from ..puzzles import BadMath, BaseMode
+from ..puzzles import BadMath, BaseMode, AustralianMode
 from ..puzzles.puzzle import Puzzle
 
 
@@ -11,6 +11,7 @@ class TestController(unittest.TestCase):
     puzzle_sequence = [
         BadMath,
         BaseMode,
+        AustralianMode
     ]
 
     def setUp(self):
@@ -28,7 +29,10 @@ class TestController(unittest.TestCase):
         calls to Controller.next_puzzle()
         """
         for i, response in enumerate(self._iter_puzzles()):
-            self.assertIsInstance(self.controller._puzzles[0], self.puzzle_sequence[i])
+            self.assertIsInstance(
+                self.controller._puzzles[0],
+                self.puzzle_sequence[i]
+            )
 
     def test_all_puzzles_derived_from_base(self):
         for puzzle in self.controller._puzzles:

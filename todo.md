@@ -12,8 +12,9 @@
 
 ### "Encryption Mode" Puzzles
 
-- [ ] implement base mode !!!
-- [ ] implement australian mode
+- [x] implement base mode
+- [x] implement australian mode
+- [ ] add silly `possible_responses` for australian mode
 - [ ] implement dark mode
 - [ ] emplement ESA key mode
 
