@@ -25,12 +25,14 @@ class BadMath(Puzzle):
         """
         WARNING: this one takes s as a string
         """
-        return self.eval_stmt(answer) == 100
+        # in our number system
+        one_hundred = 'dogshittrashgarbagetrashdogshit'
+        return self.eval_stmt(answer) == one_hundred
 
-    def puzzle_response(self, s):
-        return self.eval_stmt(s)
+    def puzzle_response(self, answer: str) -> str:
+        return self.eval_stmt(answer)
 
-    def eval_stmt(self, s):
+    def eval_stmt(self, s) -> str:
         nums = ['trash', 'dogshit', 'garbage']
         lst = []
         rtn =''
@@ -39,7 +41,7 @@ class BadMath(Puzzle):
                 return 'ARITHMATIC ERROR'
         s = self.clean_stmt(s)
         try:
-            i  =  eval(s)
+            i  = eval(s)
             if not isinstance(i, int):
                 return 'ARITHMATIC ERROR'
             if i == 0:
@@ -52,7 +54,7 @@ class BadMath(Puzzle):
                 lst.append(nums[r])
             rtn += ''.join(reversed(lst))
             return rtn
-        except Exception:
+        except:
             return 'ARITHMATIC ERROR'
 
     def clean_stmt(self, s):
