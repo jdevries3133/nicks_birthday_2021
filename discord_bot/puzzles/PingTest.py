@@ -1,3 +1,9 @@
+"""
+Depricated!
+
+Simple puzzle to develop bot functionality.
+"""
+
 from .Puzzle import Puzzle
 
 class PingTest(Puzzle):

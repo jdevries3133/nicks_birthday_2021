@@ -15,7 +15,7 @@ class NickBot(discord.Client):
         logger.info(f'Logged on as {self.user}')
 
     async def on_message(self, message):
-        # don't respond to ourselves
+        # don't respond to ourself
         if message.author == self.user:
             return
         logger.info(message)
@@ -28,4 +28,3 @@ class NickBot(discord.Client):
             if res:
                 logger.info(res)
                 await message.channel.send(res)
-

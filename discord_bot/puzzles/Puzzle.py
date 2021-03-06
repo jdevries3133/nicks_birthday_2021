@@ -5,10 +5,11 @@ class Puzzle(ABC):
         self.prompt = prompt
         self.commands = []
 
+    @ abstractmethod
     def puzzle_response(self, s):
-        return None
+        return ''
 
-    @abstractmethod
+    @ abstractmethod
     def check_answer(self, answer: str) -> bool:
         """
         This Method checks to see if the puzzle is complete and returns a

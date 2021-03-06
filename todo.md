@@ -7,8 +7,8 @@
 
 ## Discord Puzzles
 
-- [ ] get current code working
-- [ ] update code style
+- [x] get current code working
+- [x] update code style
 
 ### "Encryption Mode" Puzzles
 
