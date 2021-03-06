@@ -12,7 +12,7 @@
 
 ### "Encryption Mode" Puzzles
 
-- [ ] implement base mode
+- [ ] implement base mode !!!
 - [ ] implement australian mode
 - [ ] implement dark mode
 - [ ] emplement ESA key mode

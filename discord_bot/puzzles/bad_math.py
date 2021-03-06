@@ -1,8 +1,8 @@
+from enum import Enum
 import logging
+import re
 
 from .puzzle import Puzzle
-from enum import Enum
-import re
 
 logger = logging.getLogger(__name__)
 

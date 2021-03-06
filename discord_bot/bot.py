@@ -18,13 +18,22 @@ class NickBot(discord.Client):
         # don't respond to ourself
         if message.author == self.user:
             return
-        logger.info(message)
+
+        logger.info(f'Message recieved: {message}')
 
         if message.author.name == self.target_user:
-            if message.content == 'hint':
-                await message.channel.send(self.control.get_prompt())
+            await self.reply(message)
 
-            res = self.control.get_response(message.content)
-            if res:
-                logger.info(res)
-                await message.channel.send(res)
+    async def reply(self, message):
+        if message.content in ['hint', 'help', '--help', '-h']:
+            await self.send_hint(message)
+            return
+
+        res = self.control.get_response(message.content)
+        if res:
+            logger.info(f'Sending response: {res}')
+            await message.channel.send(res)
+
+    async def send_hint(self, message):
+        await message.channel.send(self.control.get_prompt())
+

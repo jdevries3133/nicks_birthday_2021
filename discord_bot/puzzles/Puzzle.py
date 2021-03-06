@@ -6,8 +6,10 @@ class Puzzle(ABC):
         self.commands = []
 
     @ abstractmethod
-    def puzzle_response(self, s):
-        return ''
+    def puzzle_response(self, answer: str) -> str:
+        """
+        Return the response to a given answer if the puzzle is not solved yet.
+        """
 
     @ abstractmethod
     def check_answer(self, answer: str) -> bool:
@@ -15,3 +17,4 @@ class Puzzle(ABC):
         This Method checks to see if the puzzle is complete and returns a
         boolean value
         """
+        # TODO: rename to is_puzzle_solved()

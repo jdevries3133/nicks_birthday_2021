@@ -24,9 +24,9 @@ Using python's discord.py
 - [ ] Base Mode
 
 - Puzzle created to transition into the cyphers.
-- **Prompt:** WOW! nice job with that last one, hope it wasn't to easy. This
+- **Prompt:** WOW! nice job with that last one, hope it wasn't too easy. This
   should help you get to the next step
-  [AES encoded text with the email address.](https://www.devglan.com/online-tools/aes-encryption-decryption)
+  ["AES encrypted email address"](https://www.devglan.com/online-tools/aes-encryption-decryption)
   Ah shit I don't think that text will proccess properly in my current form. I
   think I have an `austrailian mode`, let's see if that works.
 - **Answer** australian mode

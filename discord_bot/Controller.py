@@ -37,4 +37,7 @@ class Controller():
         return self.get_prompt()
 
     def commands(self):
+        """
+        This is not used by anything right now...
+        """
         return self._puzzles[0].commands
