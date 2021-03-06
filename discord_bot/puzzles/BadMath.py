@@ -1,6 +1,10 @@
+import logging
+
 from .Puzzle import Puzzle
 from enum import Enum
 import re
+
+logger = logging.getLogger(__name__)
 
 class BadMath(Puzzle):
 
@@ -43,9 +47,9 @@ class BadMath(Puzzle):
         tokens = ['trash', 'dogshit', 'garbage', '+', '-', '*', '/']
         rtn = ''
         lst = re.split(r'(trash|dogshit|garbage|\+|-|\*|\/)', s)
-        print(lst)
+        logger.info(lst)
         lst = list(filter(lambda x: x in tokens, lst))
-        print(lst)
+        logger.info(lst)
         for tok in lst:
             if tok == 'trash' or tok == 'dogshit' or  tok == 'garbage':
                 num_lst.append(tok)

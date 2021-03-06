@@ -27,7 +27,6 @@ class TestController(unittest.TestCase):
         calls to Controller.next_puzzle()
         """
         for i, response in enumerate(self._iter_puzzles()):
-            print(i)
             self.assertIsInstance(self.controller._puzzles[i], self.puzzle_sequence[i])
 
     def test_all_puzzles_derived_from_base(self):
