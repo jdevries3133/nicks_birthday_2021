@@ -8,7 +8,7 @@ class PingTest(Puzzle):
         if s == 'ping':
             return 'pong'
 
-    def check_answer(self, s):
-        if s == 'pong':
+    def check_answer(self, answer: str) -> bool:
+        if answer == 'pong':
             return True
         return False

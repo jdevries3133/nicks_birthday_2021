@@ -4,11 +4,11 @@ import re
 
 class BadMath(Puzzle):
 
-    def check_answer(self, s):
+    def check_answer(self, answer: str) -> bool:
         """
         WARNING: this one takes s as a string
         """
-        return self.eval_stmt(s) == 100
+        return self.eval_stmt(answer) == 100
 
     def puzzle_response(self, s):
         return self.eval_stmt(s)

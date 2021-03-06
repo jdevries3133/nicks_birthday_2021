@@ -8,9 +8,7 @@ class ServerStartup(Puzzle):
             'and relax')
             )
         self.bot_token = token
-    def check_answer(self, s):
-        if s == 'done':
+    def check_answer(self, answer: str) -> bool:
+        if answer == 'done':
             return True
         return False
-
-#TODO: Finish Puzzle

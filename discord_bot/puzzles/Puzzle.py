@@ -9,7 +9,7 @@ class Puzzle(ABC):
         return None
 
     @abstractmethod
-    def check_answer(self, s):
+    def check_answer(self, answer: str) -> bool:
         """
         This Method checks to see if the puzzle is complete and returns a
         boolean value
