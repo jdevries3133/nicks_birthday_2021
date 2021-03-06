@@ -2,7 +2,7 @@ import unittest
 
 from ..Controller import Controller
 
-from ..puzzles import BadMath, ChessPuzzle
+from ..puzzles import BadMath
 from ..puzzles.Puzzle import Puzzle
 
 
@@ -10,7 +10,6 @@ class TestController(unittest.TestCase):
 
     puzzle_sequence = [
         BadMath,
-        ChessPuzzle,
     ]
 
     def setUp(self):
@@ -19,7 +18,8 @@ class TestController(unittest.TestCase):
     def _iter_puzzles(self):
         yield self.controller
         for _ in self.controller._puzzles:
-            yield self.controller.next_puzzle()
+            if puzzle := self.controller.next_puzzle():
+                yield puzzle
 
     def test_puzzle_sequence(self):
         """
@@ -27,7 +27,8 @@ class TestController(unittest.TestCase):
         calls to Controller.next_puzzle()
         """
         for i, response in enumerate(self._iter_puzzles()):
-            self.assertIsInstance(self.controller._puzzles[0], self.puzzle_sequence[i])
+            print(i)
+            self.assertIsInstance(self.controller._puzzles[i], self.puzzle_sequence[i])
 
     def test_all_puzzles_derived_from_base(self):
         for puzzle in self.controller._puzzles:
