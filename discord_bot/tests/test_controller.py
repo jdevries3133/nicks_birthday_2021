@@ -1,9 +1,9 @@
 import unittest
 
-from ..Controller import Controller
+from ..controller import Controller
 
 from ..puzzles import BadMath
-from ..puzzles.Puzzle import Puzzle
+from ..puzzles.puzzle import Puzzle
 
 
 class TestController(unittest.TestCase):

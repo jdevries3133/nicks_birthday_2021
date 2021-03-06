@@ -4,7 +4,7 @@ Depricated!
 Simple puzzle to develop bot functionality.
 """
 
-from .Puzzle import Puzzle
+from .puzzle import Puzzle
 
 class PingTest(Puzzle):
     def __init__(self):

@@ -1,7 +1,7 @@
 import logging
 
 import discord
-from .Controller import Controller
+from .controller import Controller
 
 logger = logging.getLogger(__name__)
 

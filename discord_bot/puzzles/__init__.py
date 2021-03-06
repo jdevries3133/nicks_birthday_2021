@@ -1,1 +1,1 @@
-from .BadMath import BadMath
+from .bad_math import BadMath

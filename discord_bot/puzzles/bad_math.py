@@ -1,6 +1,6 @@
 import logging
 
-from .Puzzle import Puzzle
+from .puzzle import Puzzle
 from enum import Enum
 import re
 
