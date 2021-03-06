@@ -4,7 +4,7 @@ from .. import BadMath
 class TestBadMath(unittest.TestCase):
 
     def setUp(self):
-        self.my_math = BadMath("N/A")
+        self.my_math = BadMath()
 
     # Test to make sure the coverter is properly converting base 3 numbers
     def test_converter(self):
