@@ -64,20 +64,45 @@ class AustralianMode(Puzzle):
         self.commands = {
             'box kangaroo': {
                 'was_executed': False,
+                'opt success': 2,  # if this response is chosen, this part is complete
                 'possible_responses': [
-                    'temp...',
+                    # 0
+                    'Really? You thought you\'d beat a roo? You\'re crackers',
+                    # 1
+                    'This kangaroo\'s a pacifist. Leave him be',
+                    # 2
+                    'Knockout! And the roo goes down!! How did you manage that?!',
+                    # 3
+                    'Oi! This roo\'s got a joey! You still wanna fight her?',
+                    # 4
+                    'Keep up this shit and you\'ll end up kicked out of Straya',
+                    # 5
+                    'Crikey! One punch and you\'re out cold. Better luck next time'
                 ]
             },
             'step on snake': {
                 'was_executed': False,
+                'opt sucess': 3,
                 'possible_responses': [
-                    'temp...'
+                    'God! A brown snake! Step back, before it bites ya',
+                    'Crikey! An amethystine python! It\'s 5 metres long, how did you miss that?!',
+                    'Geez! A bandy-bandy! What a gorgeous fella....',
+                    'Wow! A file snake! Totally harmless, that\'s ace!'
+                    'Oh no! A taipan! Is it inland or coastal? Doesn\'t matter, you\'re good as dead...',
+                    'A DEATH ADDER?! You know by the name you\'re shit outta luck...'
+
                 ]
             },
             'investigate colorful spider': {
                 'was_executed': False,
+                'opt success': 4,
                 'possible_responses': [
-                    'temp...'
+                    'A mouse spider! Better leave er alone before she bites ya',
+                    'Watch out! A trap door spider! The fella was just waiting for ya!',
+                    'A green jumping spider! No worries, this one\'s harmless... I think...',
+                    'Ouch! A redback! I\'ll call an ambo...',
+                    'A FUNNEL WEB??! GET THE FUCK OUTTA HERE!',
+                    'Crikey! A Huntsman! He\'s a big boy, but totally harmless. Looks gross though...'
                 ]
             }
         }
@@ -123,6 +148,7 @@ class AustralianMode(Puzzle):
                 f'({", ".join(self.commands)})'
             )
         self.commands[command]['was_executed'] = True
+        # TODO: Check if the response is success; only complete puzzle if it is
         response = random.sample(
             self.commands[command]['possible_responses'],
             1
