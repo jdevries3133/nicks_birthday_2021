@@ -2,7 +2,13 @@ import unittest
 
 from ..controller import Controller
 
-from ..puzzles import BadMath, BaseMode, AustralianMode
+from ..puzzles import (
+    BadMath,
+    BaseMode,
+    AustralianMode,
+    DarkMode,
+    FinalMode,
+)
 from ..puzzles.puzzle import Puzzle
 
 
@@ -11,7 +17,9 @@ class TestController(unittest.TestCase):
     puzzle_sequence = [
         BadMath,
         BaseMode,
-        AustralianMode
+        AustralianMode,
+        DarkMode,
+        FinalMode,
     ]
 
     def setUp(self):

@@ -1,6 +1,12 @@
 import discord
 
-from .puzzles import BadMath, BaseMode, AustralianMode
+from .puzzles import (
+    BadMath,
+    BaseMode,
+    AustralianMode,
+    DarkMode,
+    FinalMode,
+)
 
 class ControllerPuzzlesEmptyException(Exception):
     ...
@@ -10,7 +16,9 @@ class Controller():
         self._puzzles = [
             BadMath(),
             BaseMode(),
-            AustralianMode()
+            AustralianMode(),
+            DarkMode(),
+            FinalMode(),
         ]
 
     def get_response(self, s):

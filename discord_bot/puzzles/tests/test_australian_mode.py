@@ -20,7 +20,9 @@ class TestAustrailanMode(TestCase):
         response = self.aust.puzzle_response('hello')
         self.assertEqual(
             response,
-            convert('If ya wanna go to the kangaroo console, just tell me Mate!')
+            convert(
+                'If ya wanna go to the kangaroo console, just tell me Mate!'
+            )
         )
 
     def test_unlock_kangaroo_console(self):
@@ -139,12 +141,12 @@ def test_convert():
     IMPORTANT! Note that case sensitivty CANNOT be preserved always.
     """
     normal = string.printable[10:62]
-    flip = 'ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz∀qƆpƎℲפHIſʞ˥WNOԀQɹS┴∩ΛMX⅄Z'
+    flip = 'ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz∀qƆpƎℲפHIſʞ˥WNOԀQɹS┴∩ΛMX⅄Z'[::-1]
     assert flip == convert(normal)
     # Case cannot be preserved always!
     assert normal.lower() == convert(flip).lower()
 
     normal = 'what is up?'
-    flip = 'ʍɥɐʇ ᴉs nd?'
+    flip = 'ʍɥɐʇ ᴉs nd?'[::-1]
     assert flip == convert(normal)
     assert convert(convert(flip)) == flip

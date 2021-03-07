@@ -14,6 +14,7 @@
 
 - [x] implement base mode
 - [x] implement australian mode
+- [ ] add help function to australian mode
 - [x] add silly `possible_responses` for australian mode
 - [x] implement dark mode
 - [x] emplement ESA key mode

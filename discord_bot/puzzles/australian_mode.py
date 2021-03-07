@@ -34,7 +34,7 @@ def convert(message: str) -> str:
             flipped += MSG_UNINVERSION_MAP[l]
         else:
             flipped += l
-    return flipped
+    return flipped[::-1]
 
 
 def flip_output(func):
@@ -108,7 +108,7 @@ class AustralianMode(Puzzle):
 
     @ property
     def prompt(self):
-        return (
+        return convert(
             'Crikey mate! Welcome to tha land a down unda! Down hea, we got '
             'nothin but geeytors \'nd kaangarooos for \'ya!\n\n'
             'But if ya head down to the \'ol kangaroo console yea con go '
