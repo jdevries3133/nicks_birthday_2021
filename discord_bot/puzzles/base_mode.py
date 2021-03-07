@@ -8,7 +8,10 @@ from .puzzle import Puzzle
 class BaseMode(Puzzle):
     def __init__(self):
         super().__init__()
-        self.prompt = (
+
+    @ property
+    def prompt(self):
+        return (
             'Wow! Nice job with that last one. I hope it wasn\'t too easy. '
             'Just shoot me an email at [[encryption digest]] to take this '
             'conversation to the next level!\n\nWait, hold on a sec... '

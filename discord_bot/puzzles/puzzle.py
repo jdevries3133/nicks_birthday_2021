@@ -4,6 +4,13 @@ class Puzzle(ABC):
     def __init__(self):
         self.commands = []
 
+    @ property
+    @ abstractmethod
+    def prompt(self) -> str:
+        """
+        First message that is sent.
+        """
+
     @ abstractmethod
     def puzzle_response(self, answer: str) -> str:
         """
@@ -16,4 +23,6 @@ class Puzzle(ABC):
         This Method checks to see if the puzzle is complete and returns a
         boolean value
         """
-        # TODO: rename to is_puzzle_solved()
+
+    def hint(self) -> str:
+        return self.prompt

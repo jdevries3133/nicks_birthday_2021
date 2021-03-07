@@ -53,13 +53,6 @@ class AustralianMode(Puzzle):
 
 
     def __init__(self):
-        self.prompt = (
-            'Crikey mate! Welcome to tha land a down unda! Down hea, we got '
-            'nothin but geeytors \'nd kaangarooos for \'ya!\n\n'
-            'But if ya head down to the \'ol kangaroo console yea con go '
-            'ehed and issue some commands mate.'
-        )
-
         # set to true after entering "go to kangaroo console"
         self.console_unlocked = False
 
@@ -112,6 +105,15 @@ class AustralianMode(Puzzle):
                 ]
             }
         }
+
+    @ property
+    def prompt(self):
+        return (
+            'Crikey mate! Welcome to tha land a down unda! Down hea, we got '
+            'nothin but geeytors \'nd kaangarooos for \'ya!\n\n'
+            'But if ya head down to the \'ol kangaroo console yea con go '
+            'ehed and issue some commands mate.'
+        )
 
     @ flip_output
     def puzzle_response(self, answer: str) -> str:

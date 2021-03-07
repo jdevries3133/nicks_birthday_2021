@@ -7,10 +7,9 @@ from .puzzle import Puzzle
 logger = logging.getLogger(__name__)
 
 class BadMath(Puzzle):
-
-    def __init__(self):
-        super().__init__()
-        self.prompt = (
+    @ property
+    def prompt(self):
+        return (
             'Why hello there, I have come up with a brand new system of'
             ' mathematics! It features everything you love about old'
             ' math, addition, subtraction, multiplication, and division'

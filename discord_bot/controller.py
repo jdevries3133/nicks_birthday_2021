@@ -21,6 +21,9 @@ class Controller():
     def get_prompt(self):
         return self._puzzles[0].prompt
 
+    def get_hint(self):
+        return self._puzzles[0].hint()
+
     def next_puzzle(self) -> str:
         """
         Will return None when there are no puzzles remaining.

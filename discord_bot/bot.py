@@ -47,5 +47,4 @@ class NickBot(discord.Client):
         await message.channel.send(res)
 
     async def send_hint(self, message):
-        await message.channel.send(self.control.get_prompt())
-
+        await message.channel.send(self.control.get_hint())

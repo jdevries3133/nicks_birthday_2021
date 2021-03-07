@@ -18,14 +18,14 @@ class DarkMode(Puzzle):
     fairness of requiring sight simply to process information efficiently? The
     world is cruel. CRUEL I TELL YOU!  Anyway, you probably have heard enough
     of my diatribe. The phrase you need to type is tisket a biscuit the baker
-    has a dog.Well, I hope you enjoyed this journey. It was quite an adventure
+    has a dog. Well, I hope you enjoyed this journey. It was quite an adventure
     we had together. So many cypher texts. In the mean time, here is a decoy
     that you might think is what you need to type in, but it is not!
 
     NEXT LEVEL: "312_NONSENSE_GOTCHA"
     """
 
-    MESSAGE = (
+    ROTATED_MESSAGE = (
         # give the poor man a little help here
         "This is one rotten message... I hope you enjoy it! "
 
@@ -63,15 +63,33 @@ class DarkMode(Puzzle):
         'FWPL DWNWD: "312_FGFKWFKW_YGLUZS"'
     )
 
-    def __init__(self):
-        self.prompt = (
+    ROTATED_BRAILLE_MESSAGE = (
+        '⠞⠓⠊⠎ ⠊⠎ ⠕⠝⠑ ⠗⠕⠞⠞⠑⠝ ⠍⠑⠎⠎⠁⠛⠑⠲⠲⠲ ⠊ ⠓⠕⠏⠑ ⠽⠕⠥ ⠑⠝⠚⠕⠽ ⠊⠞⠖ ⠝⠥ ⠟⠃⠁⠄⠛ ⠇⠃⠓ ⠺⠓⠋⠛ '
+        '⠚⠧⠋⠥ ⠧⠛ ⠏⠃⠓⠽⠟ ⠕⠗ ⠝ ⠋⠥⠃⠑⠛ ⠵⠗⠋⠋⠝⠞⠗ ⠎⠃⠑ ⠃⠁⠏⠗⠦ ⠥⠗ ⠋⠞⠥⠑ ⠽⠟⠑⠑⠍⠎⠟ ⠊⠟⠙⠟ ⠵⠁⠋ ⠃'
+        '⠍⠏⠏⠟⠏ ⠁⠛⠋ ⠝⠅ ⠍ ⠝⠛⠵⠕⠞ ⠁⠗ ⠝⠑⠂ ⠅⠁⠛ ⠕⠁⠛⠭⠏ ⠃⠙⠁⠝⠍⠝⠭⠅ ⠑⠁⠭⠓⠟ ⠥⠋ ⠥⠵ ⠧⠛⠑⠋ ⠍ ⠗⠟⠊'
+        '⠽⠥⠵⠛⠋⠟⠑⠖ ⠍⠋⠑ ⠇⠺⠇⠙⠂ ⠞ ⠺⠞⠧⠏ ⠑⠵ ⠑⠇⠺⠧⠲ ⠞ ⠺⠞⠧⠏ ⠑⠵ ⠉⠇⠭⠍⠺⠏⠂ ⠝⠇⠽ ⠚⠵⠋ ⠍⠺⠇⠭⠏ ⠭⠏'
+        '⠦ ⠞ ⠭⠞⠗⠎⠑ ⠍⠏ ⠇ ⠍⠺⠞⠽⠕ ⠵⠺⠕ ⠭⠇⠽ ⠍⠋⠑ ⠙⠵ ⠓⠎⠇⠑⠲ ⠙⠗⠅⠙ ⠝⠽⠕⠉⠭⠄⠙ ⠺⠕⠅⠭ ⠊⠽⠑ ⠍⠅⠭⠄⠙'
+        '⠗⠕⠅⠃ ⠺⠊ ⠉⠙⠽⠃⠎⠕⠉⠲ ⠙⠗⠅⠙ ⠝⠽⠕⠉⠭⠄⠙ ⠺⠕⠅⠭ ⠎ ⠗⠅⠋⠕ ⠺⠽⠃⠕ ⠙⠽ ⠛⠃⠎⠙⠕⠲ ⠋⠟⠭ ⠍⠝⠇⠗⠍⠝⠍ '
+        '⠉⠟⠚⠉ ⠃⠗⠏⠟⠉ ⠧⠙⠃⠉ ⠅⠝ ⠉⠟⠝ ⠏⠚⠉⠝⠞⠝⠝⠽⠝⠁ ⠉⠭ ⠥⠗⠉⠝⠁⠚⠉⠙⠁⠝ ⠚⠥⠥ ⠚⠥⠭⠺⠏⠦ ⠋⠟⠚⠉ ⠗⠃ ⠉⠟'
+        '⠝ ⠕⠚⠗⠁⠺⠝⠃⠃ ⠭⠕ ⠁⠝⠵⠙⠗⠁⠗⠺⠏ ⠃⠗⠏⠟⠉ ⠃⠗⠧⠽⠥⠓ ⠉⠭ ⠽⠁⠭⠇⠝⠃⠃ ⠗⠺⠕⠭⠁⠧⠚⠉⠗⠭⠺ ⠝⠕⠕⠗⠇⠗⠝⠺⠉'
+        '⠥⠓⠦ ⠉⠟⠝ ⠋⠭⠁⠥⠍ ⠗⠃ ⠇⠁⠙⠝⠥⠲ ⠇⠁⠙⠝⠥ ⠗ ⠉⠝⠥⠥ ⠓⠭⠙⠖⠝⠁⠇⠚⠝⠇⠂ ⠇⠃⠓ ⠉⠑⠃⠕⠝⠕⠽⠇ ⠥⠝⠊⠗ ⠥⠗'
+        '⠝⠑⠟ ⠗⠁⠃⠓⠞⠥ ⠃⠎ ⠵⠇ ⠟⠧⠝⠛⠑⠧⠕⠗⠲ ⠛⠥⠗ ⠉⠥⠑⠝⠋⠗ ⠇⠃⠓ ⠁⠗⠗⠟ ⠛⠃ ⠛⠇⠉⠗ ⠧⠋⠂ ⠟⠋⠏⠓⠃⠟ ⠭ ⠽'
+        '⠋⠏⠵⠗⠋⠟ ⠟⠑⠃ ⠽⠭⠓⠃⠕ ⠑⠭⠏ ⠭ ⠁⠇⠙⠲⠕⠺⠙⠙⠂ ⠁ ⠵⠛⠓⠺ ⠟⠛⠍ ⠺⠋⠃⠛⠟⠺⠧ ⠇⠵⠁⠅ ⠃⠛⠍⠚⠋⠺⠟⠲ ⠁⠇ '
+        '⠕⠎⠅ ⠊⠍⠁⠇⠺ ⠎⠋ ⠎⠧⠝⠺⠋⠇⠍⠚⠺ ⠕⠺ ⠵⠎⠧ ⠇⠛⠽⠺⠇⠵⠺⠚⠲ ⠅⠛ ⠑⠎⠋⠟ ⠥⠟⠓⠵⠺⠚ ⠇⠺⠏⠇⠅⠲ ⠁⠋ ⠇⠵⠺ '
+        '⠑⠺⠎⠋ ⠇⠁⠑⠺⠂ ⠵⠺⠚⠺ ⠁⠅ ⠎ ⠧⠺⠥⠛⠟ ⠇⠵⠎⠇ ⠟⠛⠍ ⠑⠁⠽⠵⠇ ⠇⠵⠁⠋⠉ ⠁⠅ ⠕⠵⠎⠇ ⠟⠛⠍ ⠋⠺⠺⠧ ⠇⠛ ⠇'
+        '⠟⠓⠺ ⠁⠋⠂ ⠞⠍⠇ ⠁⠇ ⠁⠅ ⠋⠛⠇⠖⠋⠺⠏⠇ ⠙⠺⠝⠺⠙⠒ ⠄⠶⠼⠉⠼⠁⠼⠃_⠋⠛⠋⠅⠺⠋⠅⠺_⠽⠛⠇⠥⠵⠎⠄⠶'
+    )
+
+    @ property
+    def prompt(self):
+        return (
             'Ah shit oh fuck we\'re in dark mode now; I can\'t see shit in '
             'here! We\'re gonna need a communication method suitable for '
             'those without sight!'
         )
 
     def puzzle_response(self, answer: str) -> str:
-        ...
+        return self.ROTATED_BRAILLE_MESSAGE
 
     def check_answer(self, answer: str) -> bool:
-        ...
+        return answer == 'tisket a biscuit the baker has a dog'
