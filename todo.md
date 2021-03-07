@@ -15,8 +15,8 @@
 - [x] implement base mode
 - [x] implement australian mode
 - [x] add silly `possible_responses` for australian mode
-- [ ] implement dark mode
-- [ ] emplement ESA key mode
+- [x] implement dark mode
+- [x] emplement ESA key mode
 
 ## Mail Puzzles
 
