@@ -27,3 +27,74 @@ intuitive, a set of strings may be accepted as the actual answer. For example:
 | a snow storm   | snow storm, blizzard, snowfall, snow day |
 
 ### Riddles
+
+**Riddle One**
+
+It is a 5 letter word. 
+If you take away first letter, it is something you get from the sun.
+If you remove the third letter, you get a word to use when pointing. 
+Remove the fourth letter you get something to drink. 
+What is it?
+
+Solution:
+Wheat
+
+**Riddle Two**
+
+(Thing 1)
+I, at the start, am old
+Many centuries I've been told
+Used by the Greeks
+For counting techniques
+After things were bought and sold
+
+Later is when I became known
+As an infinite figure, when shown
+You've counted my spaces
+Over two billion places
+And still, my amount is unknown
+
+(Thing 2)
+I, too, am not young
+I'm almost as old as Thing 1
+I'm just a frog
+On the natural log
+But I can make counting fun
+
+(Thing 1 and Thing 2)
+When you combine us two
+In the order of Thing 1 and Thing 2
+We'll be a baked treat
+That's painful to beat
+Whether cherry, peach, or aloo
+
+Answer must be provided as numbered list
+Solution:
+1. Pi
+2. E
+3. Pie
+
+**Riddle Three**
+
+One day, Nick decides that he's hungry for a snack. He collects the following
+ingredients:
+
+1. All-purpose flour
+2. Baking powder
+3. Granulated sugar
+4. Salt
+5. Unsalted butter
+6. Buttermilk
+
+After mixing, cutting and baking at 425 F for 12 minutes, he is left with 
+6 servings of a wonderful baked good.
+
+What is it?
+
+HINT -- The butter is very cold.
+
+HINT TWO -- The dough is laminated.
+
+Solution:
+Biscuit
+
