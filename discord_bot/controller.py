@@ -1,13 +1,14 @@
 from typing import Union
 
-from .puzzles import BadMath, BaseMode
+from .puzzles import BadMath, BaseMode, AustralianMode
 import discord
 
 class Controller():
     def __init__(self):
         self._puzzles = [
             BadMath(),
-            BaseMode()
+            BaseMode(),
+            AustralianMode()
         ]
 
     def get_response(self, s):
