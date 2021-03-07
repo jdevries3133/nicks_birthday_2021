@@ -1,7 +1,9 @@
-from typing import Union
+import discord
 
 from .puzzles import BadMath, BaseMode, AustralianMode
-import discord
+
+class ControllerPuzzlesEmptyException(Exception):
+    ...
 
 class Controller():
     def __init__(self):
@@ -19,14 +21,19 @@ class Controller():
     def get_prompt(self):
         return self._puzzles[0].prompt
 
-    def next_puzzle(self) -> Union[str, None]:
+    def next_puzzle(self) -> str:
         """
         Will return None when there are no puzzles remaining.
         """
         if len(self._puzzles) > 1:
             self._puzzles.pop(0)
         else:
-            return None
+            raise ControllerPuzzlesEmptyException(
+                "The final puzzle has been popped from the controller and "
+                "the controller currently has no more puzzles. This should "
+                "not happen. The final puzzle should never end, and should "
+                "repeat the final discord puzzle departure message forever."
+            )
         return self.get_prompt()
 
     def commands(self):
