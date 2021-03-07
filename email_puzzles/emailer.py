@@ -70,6 +70,21 @@ def refresh(func):
         return func(*args, **kw)
     return wrapper
 
+
+###############################################################################
+
+        ## Types for the EmailBot ##
+
+class NewestMessage(NamedTuple):
+    last_id: bytes
+    message: str
+
+class MsgDetail(NamedTuple):
+    subject: str
+    sender: str
+
+###############################################################################
+
 class EmailBot:
     """
     Use imaplib to poll for new emails and ask the controller for a response
@@ -135,13 +150,10 @@ class EmailBot:
         logger.info(f'replying to id {id_} with message {msg}')
 
     @ refresh
-    def get_newest_message(self) -> NamedTuple:
+    def get_newest_message(self) -> NewestMessage:
         """
         Returns tuple of the id and message text as a string.
         """
-        class NewestMessage(NamedTuple):
-            last_id: bytes
-            message: str
         last_id = self.imap.search(None, 'ALL')[1][0].split()[-1]
         msg = message_from_bytes(
             self._get_msg_data(
@@ -152,10 +164,7 @@ class EmailBot:
             return NewestMessage(last_id, msg)
         return NewestMessage(last_id, msg[0].get_payload().strip())
 
-    def get_msg_detail(self, id_: bytes) -> NamedTuple:
-        class MsgDetail(NamedTuple):
-            subject: str
-            sender: str
+    def get_msg_detail(self, id_: bytes) -> MsgDetail:
         msg = self._get_msg_data(id_)
         return MsgDetail(
             subject=self.get_msg_subject(msg),
