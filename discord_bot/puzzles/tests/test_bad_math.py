@@ -64,11 +64,10 @@ class TestBadMath(unittest.TestCase):
 
         malicious_code = [
             '\n\nimport sys\n\nsys.exit()',
-
-            # TODO: this causes a memory error!
-            'trash * ' * 10000000000000000 + 'trash',
-
             'while True:\n\tpass'
         ]
         for mal in malicious_code:
-            self.my_math.eval_stmt(mal)
+            self.assertEqual(
+                self.my_math.eval_stmt(mal),
+                'ARITHMATIC ERROR'
+            )
