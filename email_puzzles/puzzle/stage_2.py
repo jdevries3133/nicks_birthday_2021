@@ -1,24 +1,38 @@
 """
 Code to be injected for the second stage.
 
-Design Ideas:
+WARNING: this code is almost incomprehensible on it's own, but here is how
+you can make sense of it:
 
-Each person has a set of messages that are returned by __repr__ in a cycle;
-iterating to the next after each call.
+- Each "person" is a type. So __add__ and similar methods are checking
+  types in order to know how to respond.
+- In the corresponding test file (./tests/test_stage_2.py), the docstring
+  at the top maps names to types.
+- So, as you are reading the code, have that key on a split screen and refer
+  to it as you look through...
 
-Some methods may be exposed as an interface for two people to interact
-or change each others' states.
+thomas: int
+carina: dict
 
-There can be utility functions sitting in local scope that allow you to
-put two people into a situation and see what will happen.
+class int(int):  # this becomes thomas...
+    def __add__(self, other):
+        if isinstance(other, dict):  # thomas + carina
+            return 'Thomas and Carina having a jolly old time'
+        ...
 
-ASCII drawings???
+Of course this means that in Carina's class you'd see:
 
-Ultimately, there will be a loosely directed flow of interactions that
-must happen in order to reach the end of the puzzle.
+class dict(dict):
+    def __add__(self, other):
+        if isinstance(other, int):
+            return other + self
+
+Obviously, messing with these classes can cause infinite recursion errors
+or cause (a + b) != (b + a), but there is a test that checks for that, so
+just run the test suite after any changes.
 """
 
-__doc__ = ''
+__doc__ = ''  # do not make the above visible in local scope
 
 challenge = 'This town is crazy. I heard the locals are out of their minds.'
 
