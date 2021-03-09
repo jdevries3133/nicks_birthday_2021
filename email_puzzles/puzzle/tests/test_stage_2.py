@@ -27,9 +27,8 @@ class TestStageTwo(TestCase):
     def test__add__ok(self):
         """
         Add everyone to everyone else and make sure we always get a string
-        back and not an error.
+        back and no an errors/exceptions.
         """
-        # dict provides extra details for debugging if needed.
         people = {
             'forrest': forrest,
             'jack': jack,
@@ -40,14 +39,17 @@ class TestStageTwo(TestCase):
         }
         for n1, p1 in people.items():
             for n2, p2 in people.items():
-                if p1 is p2:
-                    continue
-                self.assertIsInstance(p1 + p2, str)
-                self.assertIsInstance(p2 + p1, str)
-                self.assertEqual(
-                    p1 + p2,
-                    p2 + p1
-                )
+                try:
+                    self.assertIsInstance(p1 + p2, str)
+                    self.assertIsInstance(p2 + p1, str)
+                    self.assertEqual(
+                        p1 + p2,
+                        p2 + p1
+                    )
+                except Exception as e:
+                    raise Exception(
+                        f'Error occurred while adding {n1} and {n2}'
+                    ) from e
 
     # --- forrest (str) ---
 

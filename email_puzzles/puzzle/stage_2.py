@@ -79,6 +79,8 @@ class str(str):
             return 'alcoholic chaos'
         if isinstance(other, list):
             return '#virgoseason'
+        if other is self:
+            return 'ffoorreesstt'
         return other + self
 
 forrest = str('I am swole.')
@@ -127,6 +129,8 @@ class set(set):
                         ▇▇▇▇▇▇▇▇▇▇▔▔▔╲▕
                         ▇▇╱▔╲▇▇▇▇▇╱▔╲▕╱
                         ┈┈╲▂╱┈┈┈┈┈╲▂╱▔┈"""
+        if other is self:
+            return 'jackjack'
 
 
 jack = set(['this', 'that'])
@@ -158,6 +162,8 @@ class int(int):
         return super().__dir__()
 
     def __add__(self, other):
+        if other is self:
+            return 'BIG THOMAS ENERGY'
         if isinstance(other, str):
             return 'Jack #1 fan club'
         if isinstance(other, set):
@@ -242,6 +248,8 @@ class dict(dict):
         return super().__dir__()
 
     def __add__(self, other):
+        if other is self:
+            return 'Careening'
         return other + self
 
 carina = dict({'this': 'that', 'num': 1})
@@ -278,6 +286,8 @@ class list(list):
             return 'Gal pals'
         if isinstance(other, tuple):
             return 'Also gal pals'
+        if other is self:
+            return 'I\'ve been writing on the railroad all the doo dah day'
         return other + self
 
 kate = list('this', 'that')
@@ -332,6 +342,8 @@ class tuple(tuple):
                   | || |    |___|___|prs
                  /u\||/u\   /qp| |qp\
                 (_/\||/\_) (___/ \___)"""
+        if other is self:
+            return 'Enormous Dickens Richard'
         return other + self
 
 
