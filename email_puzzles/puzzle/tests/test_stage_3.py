@@ -1,8 +1,9 @@
 import ctypes
 from time import sleep
 import unittest
+from unittest.mock import patch
 
-from ..stage_4 import number
+from ..stage_3 import number
 
 
 class TestStageFour(unittest.TestCase):
@@ -19,7 +20,7 @@ class TestStageFour(unittest.TestCase):
 
     def test_tricky_int_not_in_namespace(self):
         """
-        Make the puzzle a tricker by hiding the int implementation.
+        Make the puzzle the tricker by hiding the int implementation.
         """
         with self.assertRaises(ImportError):
-            from ..stage_4 import int
+            from ..stage_3 import int

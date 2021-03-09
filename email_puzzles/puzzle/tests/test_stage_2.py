@@ -16,21 +16,38 @@ from ..stage_2 import (
     thomas,
     carina,
     kate,
-    nick
+    nick,
+    drink_together
 )
 
 def now_this_is_metaprogramming(func):
+    """
+    Wrapper to run the test on every combination of friends. Injects friend
+    objects as positional arguments.
+    """
     def wrap(*a, **kw):
         for n1, p1 in a[0].people.items():
             for n2, p2 in a[0].people.items():
                 try:
                     func(a[0], p1, p2)
-                except Exception as e:
-                    raise Exception(
+                except AssertionError as e:
+                    raise AssertionError(
                         f'Above occured on {n1} and {n2} instances'
                     ) from e
-        return
     return wrap
+
+def test_solution():
+    """
+    This is the puzzle solution.
+    """
+    for _ in range(10):
+        # forrest exposes the password after he has had 10 drinks.
+        drink_together(forrest, '')
+        ...
+    assert 'secret_password' in forrest.__dict__
+
+    # cleanup
+    forrest._jdkaaaaasdff_drinks  = 0
 
 
 class TestStageTwo(TestCase):
@@ -81,21 +98,6 @@ class TestStageTwo(TestCase):
                 dir(forrest)
             )
 
-    # --- jack (set) ---
-
-    def test_j(self):
-        ...
-
-    # --- thomas (int) ---
-
-    def test_t(self):
-        ...
-
-    # --- carina (dict) ---
-
-    def test_k(self):
-        ...
-
     # --- Behavior of type function ---
 
     def test_forrest_type_func_behavior(self):
@@ -131,7 +133,7 @@ class TestStageTwo(TestCase):
             str(type(['normal', 'dict']))
         )
 
-    # --- Assertions against global scope in stage_2 ---
+    # --- Check for a clean local scope ---
 
     def test_int_not_in_locals(self):
         """
@@ -161,3 +163,10 @@ class TestStageTwo(TestCase):
         with self.assertRaises(ImportError):
             from ..stage_2 import dict
 
+    def test_list_not_in_local(self):
+        with self.assertRaises(ImportError):
+            from ..stage_2 import list
+
+    def test_tuple_not_in_local(self):
+        with self.assertRaises(ImportError):
+            from ..stage_2 import tuple

@@ -35,13 +35,7 @@ just run the test suite after any changes.
 __doc__ = ''  # do not make the above visible in local scope
 
 challenge = 'This town is crazy. I heard the locals are out of their minds.'
-rules = 'dir() and obj.__dict__ not allowed (feel free to try)'
 
-# TODO: there should directions or something. I am restricting access in
-# certain ways, but requiring introspection and investigation in others.
-# I should clarify which methods or functions are part of the puzzle,
-# and which are part of the "walled garden," and won't work / have been
-# disabled.
 
 class str(str):
 
@@ -49,11 +43,12 @@ class str(str):
         super().__init__()
         self.passwd_entered = False
         self.messages = ['swole']
-        self.passwd = '200 grams of protien a day keeps the skinny away'
+        self.secret_password = '200 grams of protien a day keeps the skinny thinny away'
+        self._jdkaaaaasdff_drinks = 0  # security by obsurity
 
     def __getattribute__(self, name):
-        if name == '__dict__':
-            return {'no': 'cheating'}
+        if name == '__dict__' and self._jdkaaaaasdff_drinks < 9:
+            return {'hey': 'grease me up a bit if you want my deets'}
         return super().__getattribute__(name)
 
     def __module__(self, *a, **kw):
@@ -85,6 +80,12 @@ class str(str):
 
 forrest = str('I am swole.')
 del str
+
+def drink_together(*people):
+    for person in people:
+        if person is forrest:
+            forrest._jdkaaaaasdff_drinks += 1
+            return forrest, 'yum'
 
 
 class set(set):

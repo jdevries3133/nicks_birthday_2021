@@ -18,7 +18,7 @@ class TestController(unittest.TestCase):
     def test_respond_to(self, mock_exec):
         mock_exec.return_value = {'stdout': 'hello', 'stderr': ''}
         self.assertEqual(
-            self.controller.respond_to('print("hello")'),
+            self.controller.respond_to('print("hello")').strip(),
             'hello'
         )
 
@@ -36,15 +36,18 @@ class TestController(unittest.TestCase):
     def test_base_case_solution(self, mock_exec):
         mock_exec.return_value = {'stdout': 'Hello, world!', 'stderr': ''}
         msg = self.controller.respond_to('print("Hello, world!")')
-        self.assertEqual(msg, self.controller.puzzle_solutions['1']['success_response'])
+        self.assertEqual(
+            msg,
+            self.controller.puzzle_solutions['1']['success_response']
+        )
         self.assertEqual(self.controller.cur_puzzle, 2)
 
-    def test_stage_4_solution(self, mock_exec):
+    def test_stage_3_solution(self, mock_exec):
         mock_exec.return_value = {'stdout': '1325', 'stderr': ''}
-        self.controller.cur_puzzle = 4
+        self.controller.cur_puzzle = 3
         solution_code = 'import ctypes\nprint(ctypes.c_short(number).value)'
         msg = self.controller.respond_to(solution_code)
         self.assertEqual(
             msg,
-            self.controller.puzzle_solutions['4']['success_response']
+            self.controller.puzzle_solutions['3']['success_response']
         )

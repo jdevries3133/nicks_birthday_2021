@@ -17,16 +17,11 @@ class Controller:
             'success_response': 'Hello to you too! Welcome to stage two :)'
         },
         '2': {
-            'stdout': '',
+            'stdout': '200 grams of protien a day keeps the skinny thinny away',
             'stderr': '',
-            'success_response': ''
+            'success_response': 'Phew! What a party!! Thanks for coming!'
         },
         '3': {
-            'stdout': '',
-            'stderr': '',
-            'success_response': ''
-        },
-        '4': {
             'stdout': '1325',
             'stderr': '',
             'success_response': 'You done it!'
@@ -35,7 +30,7 @@ class Controller:
 
     def __init__(self):
         self.cur_puzzle = 1
-        self.num_puzzles = 4
+        self.num_puzzles = 3
         self.puzzle_dir = Path(Path(__file__).parent, 'puzzle')
         self.executor = ArbitraryExecutor()
 
@@ -69,8 +64,11 @@ class Controller:
             == self.puzzle_solutions[str(self.cur_puzzle)]['stderr']
         ):
             next(self)
-            return self.puzzle_solutions[str(self.cur_puzzle - 1)]['success_response']
-        return stdout if not stderr else '\n'.join((stdout, stderr))
+            return (
+                self.puzzle_solutions[
+                    str(self.cur_puzzle - 1)]['success_response']
+            )
+        return '\n'.join((stdout, stderr))
 
     def _exec_before(self) -> str:
         """
@@ -79,13 +77,11 @@ class Controller:
         """
         # code snippet to prevent premature puzzle solving
         exec_before = break_workarounds.restrict_builtins
-        for stage_id in range(1, self.cur_puzzle + 1):
-            if stage_id:
-                with open(
-                    Path(
-                        self.puzzle_dir,
-                        f'stage_{stage_id}.py'
-                    ), 'r'
-                ) as stagef:
-                    exec_before += '\n' + stagef.read()
+        with open(
+            Path(
+                self.puzzle_dir,
+                f'stage_{self.cur_puzzle}.py'
+            ), 'r'
+        ) as stagef:
+            exec_before += '\n' + stagef.read()
         return exec_before
