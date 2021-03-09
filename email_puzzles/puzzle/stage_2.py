@@ -35,7 +35,7 @@ just run the test suite after any changes.
 __doc__ = ''  # do not make the above visible in local scope
 
 challenge = 'This town is crazy. I heard the locals are out of their minds.'
-
+rules = 'dir() and obj.__dict__ not allowed (feel free to try)'
 
 # TODO: there should directions or something. I am restricting access in
 # certain ways, but requiring introspection and investigation in others.

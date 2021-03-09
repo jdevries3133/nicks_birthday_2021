@@ -19,17 +19,28 @@ from ..stage_2 import (
     nick
 )
 
+def now_this_is_metaprogramming(func):
+    def wrap(*a, **kw):
+        for n1, p1 in a[0].people.items():
+            for n2, p2 in a[0].people.items():
+                try:
+                    func(a[0], p1, p2)
+                except Exception as e:
+                    raise Exception(
+                        f'Above occured on {n1} and {n2} instances'
+                    ) from e
+        return
+    return wrap
 
 
 class TestStageTwo(TestCase):
 
-    # --- __add__ ---
-    def test__add__ok(self):
+    def setUp(self):
         """
-        Add everyone to everyone else and make sure we always get a string
-        back and no an errors/exceptions.
+        This self.people dict can be helpful for making more descriptive
+        error messages and debugging.
         """
-        people = {
+        self.people = {
             'forrest': forrest,
             'jack': jack,
             'thomas': thomas,
@@ -37,19 +48,25 @@ class TestStageTwo(TestCase):
             'kate': kate,
             'nick': nick
         }
-        for n1, p1 in people.items():
-            for n2, p2 in people.items():
-                try:
-                    self.assertIsInstance(p1 + p2, str)
-                    self.assertIsInstance(p2 + p1, str)
-                    self.assertEqual(
-                        p1 + p2,
-                        p2 + p1
-                    )
-                except Exception as e:
-                    raise Exception(
-                        f'Error occurred while adding {n1} and {n2}'
-                    ) from e
+
+    # --- __add__ ---
+
+    @ now_this_is_metaprogramming
+    def test__add__works(self, p1, p2):
+        self.assertEqual(
+            p1 + p2,
+            p2 + p1
+        )
+
+    @ now_this_is_metaprogramming
+    def test__add__returns_string(self, p1, p2):
+        """
+        Add everyone to everyone else and make sure we always get a string
+        back and no an errors/exceptions.
+        """
+        self.assertIsInstance(p1 + p2, str)
+        self.assertIsInstance(p2 + p1, str)
+
 
     # --- forrest (str) ---
 
