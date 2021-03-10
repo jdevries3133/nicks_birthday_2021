@@ -30,11 +30,10 @@ intuitive, a set of strings may be accepted as the actual answer. For example:
 
 **Riddle One**
 
-It is a 5 letter word. 
-If you take away first letter, it is something you get from the sun.
-If you remove the third letter, you get a word to use when pointing. 
-Remove the fourth letter you get something to drink. 
-What is it?
+It is a 5 letter word. If you take away first letter, it is something you get
+from the sun. If you remove the third letter, you get a word to use when
+pointing. Remove the fourth letter you get something to drink. What is
+it?
 
 Solution:
 Wheat
@@ -68,11 +67,13 @@ We'll be a baked treat
 That's painful to beat
 Whether cherry, peach, or aloo
 
-Answer must be provided as numbered list
+Format your answer as three words each separated by a new line.
+
 Solution:
-1. Pi
-2. E
-3. Pie
+
+- Pi
+- E
+- Pie
 
 **Riddle Three**
 
@@ -86,7 +87,7 @@ ingredients:
 5. Unsalted butter
 6. Buttermilk
 
-After mixing, cutting and baking at 425 F for 12 minutes, he is left with 
+After mixing, cutting and baking at 425 F for 12 minutes, he is left with
 6 servings of a wonderful baked good.
 
 What is it?
@@ -97,4 +98,3 @@ HINT TWO -- The dough is laminated.
 
 Solution:
 Biscuit
-
