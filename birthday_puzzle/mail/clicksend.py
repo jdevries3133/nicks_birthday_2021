@@ -17,7 +17,8 @@ class Address:
         addr_line_2: Union[str, None],
         city: str,
         state: str,
-        zip_code: int
+        zip_code: int,
+        country: str='USA'
     ):
         self.name = name
         self.addr_line_1 = addr_line_1
@@ -25,6 +26,18 @@ class Address:
         self.city = city
         self.state = state
         self.zip_code = zip_code
+        self.country = country
+
+    def data(self) -> dict:
+        return {
+            'address_name': self.name,
+            'address_line_1': self.addr_line_1,
+            'address_line_2': self.addr_line_2,
+            'address_city': self.city,
+            'address_state': self.state,
+            'address_postal_code': self.zip_code,
+            'address_country': self.country
+        }
 
 
 class ClickSend:
@@ -37,6 +50,7 @@ class ClickSend:
     def __init__(self, username: str, api_key: str):
         self.session = Session()
         self.session.auth = HTTPBasicAuth(username, api_key)
+        self.doc_url = ''
 
     def send(self, document: bytes, address: Address) -> bool:
         """
@@ -48,9 +62,34 @@ class ClickSend:
 
         Returns a boolean indicating whether the action was successful.
         """
+        if not self._upload(document):
+            return False
+        if not self._send(address):
+            return False
+        return True
 
-        # upload to clicksend API
-        payload = b'{"content":"' + b64encode(document) + b'"}'
+    def _send(self, address: Address) -> bool:
+        """
+        Tell clicksend to mail previously uploaded file.
+        """
+        print('MOCK LETTER SENT')
+        return True
+        res = self.session.post(
+            self.hrefs['send'],
+            data={
+                'file_url': self.doc_url,
+                **address.data(),
+            }
+        )
+        if self.is_successful(res):
+            return True
+        return False
+
+    def _upload(self, doc: bytes) -> bool:
+        """
+        Upload to clicksend API
+        """
+        payload = b'{"content":"' + b64encode(doc) + b'"}'
         res = self.session.post(
             self.hrefs['upload'],
             params={'convert': 'post'},
@@ -59,9 +98,9 @@ class ClickSend:
             },
             data=payload
         )
-        breakpoint()
         if not self.is_successful(res):
             return False
+        self.doc_url = res.json()['data']['_url']
         return True
 
     @ staticmethod
@@ -84,7 +123,7 @@ if __name__ == '__main__':
         state=data['clicksend']['state'],
         zip_code=data['clicksend']['zip_code']
     )
-    
+
     sender = ClickSend(
         data['clicksend']['username'],
         data['clicksend']['API_KEY']

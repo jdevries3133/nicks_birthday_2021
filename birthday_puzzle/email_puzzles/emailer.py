@@ -91,9 +91,8 @@ class EmailBot:
     if needed.
     """
 
-    _last_id_cache_file = Path(BASE_DIR, 'last_id.json')
 
-    def __init__(self, username: str=None, password: str=None):
+    def __init__(self, username: str=None, password: str=None, cache_id_file: Path=None):
         self.username = username if username else CREDENTIALS.get('username')
         self.imap = imaplib.IMAP4_SSL('imap.gmail.com', 993)
         self.imap.login(
@@ -106,6 +105,9 @@ class EmailBot:
         )
         self.controller = Controller()
         self.imap.select('inbox')
+        self._last_id_cache_file = (
+            cache_id_file if cache_id_file else Path(BASE_DIR, 'last_id.json')
+        )
         if os.path.exists(self._last_id_cache_file):
             with open(self._last_id_cache_file, 'r') as cachef:
                 self._last_id = bytes(json.load(cachef)['lastId'], 'utf-8')
@@ -131,12 +133,15 @@ class EmailBot:
             sleep(self.WAIT)
             new_id, msg = self.get_newest_message()
             if new_id != self._last_id:
-                self._print_msg_recieved(new_id)
-                self.reply(
-                    new_id,
-                    self.controller.respond_to(msg)
-                )
-                self._last_id = new_id
+                self.handle_new_email(new_id, msg)
+
+    def handle_new_email(self, new_id, msg):
+        self._print_msg_recieved(new_id)
+        self.reply(
+            new_id,
+            self.controller.respond_to(msg)
+        )
+        self._last_id = new_id
 
     def reply(self, id_: bytes, msg: str):
         data = self._get_msg_data(id_)
