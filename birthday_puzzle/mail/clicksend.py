@@ -3,12 +3,14 @@ Minimal wrapper around the cliensend mail API for this project's purposes.
 """
 
 from base64 import b64encode
+import logging
 import json
 from typing import Union
 
 from requests import Session
 from requests.auth import HTTPBasicAuth
 
+logger = logging.getLogger(__name__)
 
 class Address:
     def __init__(self, *,
@@ -64,8 +66,10 @@ class ClickSend:
         Returns a boolean indicating whether the action was successful.
         """
         if not self._upload(document):
+            logger.error(f'File upload failed')
             return False
         if not self._send(address):
+            logger.error(f'File sending failed')
             return False
         return True
 

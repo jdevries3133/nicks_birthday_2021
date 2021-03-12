@@ -1,8 +1,11 @@
+import logging
 from pathlib import Path
 
 from .riddle_one import RiddleOne
 from .riddle_two import RiddleTwo
 from .riddle_three import RiddleThree
+
+logger = logging.getLogger(__name__)
 
 class Riddler:
 
@@ -19,9 +22,10 @@ class Riddler:
         """
         Return a path to the response letter as a pathlib.Path object.
         """
-        msg = self.RIDDLE_CLASSES[self.cur_riddle].get_response_letter(message)
-        if msg:
-            return msg
+        letter = self.RIDDLE_CLASSES[self.cur_riddle].get_response_letter(message)
+        logger.debug(f'Responding to message {message} with letter {letter}')
+        if letter:
+            return letter
         if self.is_complete():
             return self.send_final_msg()
         self.cur_riddle += 1
