@@ -4,7 +4,7 @@ from unittest.mock import patch
 from ..control import Controller
 
 
-@ patch('email_puzzles.control.ArbitraryExecutor.execute')
+@ patch('birthday_puzzle.email_puzzles.control.ArbitraryExecutor.execute')
 class TestController(unittest.TestCase):
 
     def setUp(self):

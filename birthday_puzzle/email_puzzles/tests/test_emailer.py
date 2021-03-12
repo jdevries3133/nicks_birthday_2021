@@ -9,16 +9,16 @@ from pathlib import Path
 
 from ..emailer import EmailBot
 
-@ patch('email_puzzles.emailer.open', mock_open(read_data=json.dumps({
+@ patch('birthday_puzzle.email_puzzles.emailer.open', mock_open(read_data=json.dumps({
     'lastId': '13'
 })))
 class TestEmailBot(unittest.TestCase):
 
-    @ patch('email_puzzles.emailer.open', mock_open(read_data=json.dumps({
+    @ patch('birthday_puzzle.email_puzzles.emailer.open', mock_open(read_data=json.dumps({
         'lastId': '13'
     })))
-    @ patch('email_puzzles.emailer.imaplib')
-    @ patch('email_puzzles.emailer.smtplib')
+    @ patch('birthday_puzzle.email_puzzles.emailer.imaplib')
+    @ patch('birthday_puzzle.email_puzzles.emailer.smtplib')
     def setUp(self, imap_mock, smtp_mock):
         self.emailer = EmailBot()
 
@@ -124,7 +124,7 @@ class TestEmailBot(unittest.TestCase):
             )
             self.assertEqual(sender, senders[i])
 
-    @ patch('email_puzzles.emailer.smtplib')
+    @ patch('birthday_puzzle.email_puzzles.emailer.smtplib')
     def test_reply(self, smtp_mock):
         # smtp_mock.sendmail.return_value = None
         expect_id, _, mockcls = next(self.get_mock())
@@ -158,10 +158,10 @@ class TestEmailBot(unittest.TestCase):
         )
         smtp_mock.reset_mock()
 
-    @ patch('email_puzzles.emailer.os.path.exists', return_value=True)
+    @ patch('birthday_puzzle.email_puzzles.emailer.os.path.exists', return_value=True)
     def test_last_id_cache_read(self, *_):
         with patch(
-            'email_puzzles.emailer.open',
+            'birthday_puzzle.email_puzzles.emailer.open',
             mock_open(read_data=json.dumps(
                 {
                     'lastId': '11'
@@ -173,7 +173,7 @@ class TestEmailBot(unittest.TestCase):
 
     def test_last_id_cache_written_on_setattr(self):
         with patch(
-            'email_puzzles.emailer.open',
+            'birthday_puzzle.email_puzzles.emailer.open',
             mock_open(read_data=json.dumps(
                 {
                     'lastId': '13'

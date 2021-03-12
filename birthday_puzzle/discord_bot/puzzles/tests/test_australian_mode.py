@@ -74,7 +74,7 @@ class TestAustrailanMode(TestCase):
             self.assertTrue(cmd_dict['was_executed'])
 
     @ unlock_console
-    @ patch('discord_bot.puzzles.australian_mode.random.randint', return_value=0)
+    @ patch('birthday_puzzle.discord_bot.puzzles.australian_mode.random.randint', return_value=0)
     def test_complete_solution(self, mock_randint):
         """
         For the puzzle to be solved, every puzzle must be called, and every
@@ -89,7 +89,7 @@ class TestAustrailanMode(TestCase):
         self.assertTrue(self.aust.check_answer(''))
 
     @ unlock_console
-    @ patch('discord_bot.puzzles.australian_mode.random.randint', return_value=1)
+    @ patch('birthday_puzzle.discord_bot.puzzles.australian_mode.random.randint', return_value=1)
     def test_brute_force_solve(self, mock_randint):
         """
         In the worst case, failure messages are popped from the list after
