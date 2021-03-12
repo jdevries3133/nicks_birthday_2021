@@ -3,7 +3,6 @@ Minimal wrapper around the cliensend mail API for this project's purposes.
 """
 
 from base64 import b64encode
-from re import A
 from typing import Union
 
 from requests import Session
@@ -44,12 +43,13 @@ class ClickSend:
 
     hrefs = {
         'upload': 'https://rest.clicksend.com/v3/uploads',
-        'send': 'https://res.clicksend.com/v3/post/letters/send',
+        'send': 'https://rest.clicksend.com/v3/post/letters/send',
     }
 
     def __init__(self, username: str, api_key: str):
         self.session = Session()
         self.session.auth = HTTPBasicAuth(username, api_key)
+        self.session.headers['Content-Type'] = 'application/json'
         self.doc_url = ''
 
     def send(self, document: bytes, address: Address) -> bool:
@@ -72,14 +72,14 @@ class ClickSend:
         """
         Tell clicksend to mail previously uploaded file.
         """
-        print('MOCK LETTER SENT')
-        return True
         res = self.session.post(
             self.hrefs['send'],
-            data={
+            data=json.dumps({
                 'file_url': self.doc_url,
-                **address.data(),
-            }
+                'recipients': [
+                    address.data(),
+                ]
+            })
         )
         if self.is_successful(res):
             return True
