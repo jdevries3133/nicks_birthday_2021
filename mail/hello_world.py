@@ -9,9 +9,13 @@ from base64 import b64encode
 import requests
 from requests.auth import HTTPBasicAuth
 from docx import Document
+from docx2pdf import convert
 
-with open(Path(Path(__file__).parent, 'secrets.json'), 'r') as jsonf:
-    data = json.load(jsonf)
+
+BASE_DIR = Path(__file__).parent
+
+with open(Path(BASE_DIR, 'secrets.json'), 'r') as jsonf:
+    data = json.load(jsonf)['clicksend']
 
 
 def main():
@@ -31,10 +35,12 @@ def main():
     # make doc to send
     doc = Document()
     doc.add_paragraph('Hello world!')
-    doc.save(Path(Path(__file__).parent, 'temp.docx'))
+    doc.save(Path(BASE_DIR, 'temp.docx'))
+
+    # convert(Path(BASE_DIR, 'temp.docx'), Path(BASE_DIR, 'temp.pdf'))
 
     # open doc and read it into byte buffer
-    with open(Path(Path(__file__).parent, 'temp.docx'), 'rb') as docxf:
+    with open(Path(BASE_DIR, 'temp.docx'), 'rb') as docxf:
         doc_raw = docxf.read()
 
     # upload to clicksend API
