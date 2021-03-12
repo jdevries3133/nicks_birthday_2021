@@ -1,5 +1,10 @@
 # To Do List
 
+## Final Items
+
+- [ ] test deploy and integration test
+- [ ] add content to `final.docx` for the _very_ end
+
 ## Email Puzzles
 
 - [x] stage 2 (friend puzzles)
@@ -9,7 +14,7 @@
 
 - [x] get current code working
 - [x] update code style
-- [ ] choose email address and encrypt it
+- [x] choose email address and encrypt it
 
 ### "Encryption Mode" Puzzles
 
@@ -23,13 +28,10 @@
 ## Mail Puzzles
 
 - [x] overall design
-- [ ] API integration
+- [x] API integration
 
 ## Final Refactor
 
 > I'm starting to think I can just run in 3 processes to keep it simple...
 
-- [ ] put the three current top-level modules inside a single primary module
-- [ ] `__main__` of that module will run the whole project
-- [ ] The primary module should also handle application state across the three
-      puzzles.
+- [x] put the three current top-level modules inside a single primary module
