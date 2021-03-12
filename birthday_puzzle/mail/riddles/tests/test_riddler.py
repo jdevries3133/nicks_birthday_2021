@@ -1,5 +1,7 @@
 from unittest import TestCase
+
 from ..api import Riddler
+
 
 
 def for_every_puzzle(func):
@@ -21,9 +23,36 @@ class TestRiddler(TestCase):
         self.assertTrue(response_f.exists())
 
     @ for_every_puzzle
-    def test_all_docx(self, response_f):
+    def test_all_are_docx(self, response_f):
         self.assertTrue(response_f.name.endswith('.docx'))
 
     def test_final_msg_ready(self):
         msg = self.rid.send_final_msg()
         self.assertTrue(msg.exists())
+
+    def test_complete_solution(self):
+        for _ in range(len(self.rid.RIDDLE_CLASSES)):
+            answer = (
+                self.rid.RIDDLE_CLASSES[self.rid.cur_riddle].CORRECT_ANSWERS[0]
+            )
+            self.rid.get_response_letter(answer)
+
+
+def every_riddle_class(func):
+    def wrap(*a, **kw):
+        for cls in Riddler.RIDDLE_CLASSES:
+            func(a[0], cls)
+    return wrap
+
+class TestRiddleClasses(TestCase):
+
+    @ every_riddle_class
+    def test_answers_are_lowercase(self, riddle_cls):
+        """
+        Messages are made all lowercase for comparison, so all answers
+        should be too.
+        """
+        for a in riddle_cls.CORRECT_ANSWERS:
+            for char in a:
+                self.assertFalse(char.isupper())
+

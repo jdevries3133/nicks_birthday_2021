@@ -3,6 +3,7 @@ Minimal wrapper around the cliensend mail API for this project's purposes.
 """
 
 from base64 import b64encode
+import json
 from typing import Union
 
 from requests import Session

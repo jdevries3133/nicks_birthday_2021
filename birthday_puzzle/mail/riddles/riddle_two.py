@@ -40,3 +40,7 @@ class RiddleTwo(SimpleRiddle):
 
     def __init__(self):
         super().__init__(stage_id=2)
+
+    @ property
+    def CORRECT_ANSWERS(self) -> list:
+        return ['pi\ne\npie']

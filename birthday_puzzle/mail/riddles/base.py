@@ -9,11 +9,31 @@ class RiddleBase(ABC):
     def __init__(self):
         self.times_called = 0
 
-    @ abstractmethod
-    def get_response_letter(self, message: str) -> Union[Path, None]:
+    def is_solved(self, message) -> bool:
+        for a in self.CORRECT_ANSWERS:  # type: ignore
+            if a in message:
+                return True
+        return False
+
+    def respond(self, message) -> Union[Path, None]:
         """
         Return path to the response doc or None if the puzzle is solved.
         """
+        self.times_called += 1
+        for answer in self.CORRECT_ANSWERS:  # type: ignore
+            if answer in message.loser().strip():
+                return None
+        return self.get_response_letter()
+
+    @ abstractmethod
+    def get_response_letter(self) -> Path:
+        """
+        Return the letter that should be sent.
+        """
+
+    @ property
+    @ abstractmethod
+    def CORRECT_ANSWERS(self) -> list:
         ...
 
 class SimpleRiddle(RiddleBase):
@@ -25,14 +45,16 @@ class SimpleRiddle(RiddleBase):
 
     The initial message transitions from the previous puzzle, and normal
     messages are sent thereafter.
+
+    By using a strict file naming convention, this class can handle both
+    puzzles.
     """
 
     def __init__(self, stage_id: int):
         self.stage_id = stage_id
         super().__init__()
 
-    def get_response_letter(self, message: str) -> Union[Path, None]:
-        self.times_called += 1
+    def get_response_letter(self, message: str) -> Path:
         if self.times_called == 1:
             return Path(
                 self.BASE_DIR,

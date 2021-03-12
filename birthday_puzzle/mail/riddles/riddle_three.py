@@ -33,7 +33,6 @@ class RiddleThree(RiddleBase):
         super().__init__()
         self.basedir = Path(self.BASE_DIR, '3')
 
-        # doc returned will be switched between based on this dict
         self.times_called_to_paths = {
             1: Path(self.basedir, '3_initial.docx'),
             2: Path(self.basedir, '3.docx'),
@@ -41,12 +40,21 @@ class RiddleThree(RiddleBase):
             10: Path(self.basedir, '3_hint_1.docx'),
         }
 
-        # prev response letter is memoized between breakpoints above
-        self.respl_memo = self.times_called_to_paths[1]
+        # memoized response
+        self.response_letter_memo = self.times_called_to_paths[1]
 
-    def get_response_letter(self, message) -> Union[Path, None]:
-        self.times_called += 1
+    def get_response_letter(self, message) -> Path:
+
+        # return last returned if cur num calls is not in above dict
         if self.times_called not in self.times_called_to_paths:
-            return self.respl_memo
-        self.respl_memo = self.times_called_to_paths[self.times_called]
-        return self.respl_memo
+            return self.response_letter_memo
+
+        # otherwise, memoize and return new letter
+        self.response_letter_memo = (
+            self.times_called_to_paths[self.times_called]
+        )
+        return self.response_letter_memo
+
+    @ property
+    def CORRECT_ANSWERS(self) -> list:
+        return ['biscuit']
