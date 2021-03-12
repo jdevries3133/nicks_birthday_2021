@@ -1,7 +1,10 @@
-from .base import RiddleBase
+from pathlib import Path
+from typing import Union
+
+from .base import SimpleRiddle
 
 
-class RiddleOne(RiddleBase):
+class RiddleOne(SimpleRiddle):
     """
     It is a 5 letter word.  If you take away first letter, it is something you
     get from the sun.  If you remove the third letter, you get a word to use
@@ -10,4 +13,6 @@ class RiddleOne(RiddleBase):
 
     Solution: "Wheat"
     """
-    ...
+
+    def __init__(self):
+        super().__init__(stage_id=1)

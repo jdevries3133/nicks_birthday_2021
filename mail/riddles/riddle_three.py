@@ -1,3 +1,6 @@
+from pathlib import Path
+from typing import Union
+
 from .base import RiddleBase
 
 
@@ -25,3 +28,25 @@ class RiddleThree(RiddleBase):
     Solution:
     Biscuit
     """
+
+    def __init__(self):
+        super().__init__()
+        self.basedir = Path(self.BASE_DIR, '3')
+
+        # doc returned will be switched between based on this dict
+        self.times_called_to_paths = {
+            1: Path(self.basedir, '3_initial.docx'),
+            2: Path(self.basedir, '3.docx'),
+            5: Path(self.basedir, '3_hint_0.docx'),
+            10: Path(self.basedir, '3_hint_1.docx'),
+        }
+
+        # prev response letter is memoized between breakpoints above
+        self.respl_memo = self.times_called_to_paths[1]
+
+    def get_response_letter(self, message) -> Union[Path, None]:
+        self.times_called += 1
+        if self.times_called not in self.times_called_to_paths:
+            return self.respl_memo
+        self.respl_memo = self.times_called_to_paths[self.times_called]
+        return self.respl_memo

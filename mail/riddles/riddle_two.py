@@ -1,7 +1,7 @@
-from .base import RiddleBase
+from .base import SimpleRiddle
 
 
-class RiddleTwo(RiddleBase):
+class RiddleTwo(SimpleRiddle):
     """
     (Thing 1)
     I, at the start, am old
@@ -37,3 +37,6 @@ class RiddleTwo(RiddleBase):
     - E
     - Pie
     """
+
+    def __init__(self):
+        super().__init__(stage_id=2)

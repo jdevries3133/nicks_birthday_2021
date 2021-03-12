@@ -8,8 +8,6 @@ from base64 import b64encode
 
 import requests
 from requests.auth import HTTPBasicAuth
-from docx import Document
-from docx2pdf import convert
 
 
 BASE_DIR = Path(__file__).parent
@@ -31,13 +29,6 @@ def main():
         'upload': 'https://rest.clicksend.com/v3/uploads',
         'send': 'https://res.clicksend.com/v3/post/letters/send',
     }
-
-    # make doc to send
-    doc = Document()
-    doc.add_paragraph('Hello world!')
-    doc.save(Path(BASE_DIR, 'temp.docx'))
-
-    # convert(Path(BASE_DIR, 'temp.docx'), Path(BASE_DIR, 'temp.pdf'))
 
     # open doc and read it into byte buffer
     with open(Path(BASE_DIR, 'temp.docx'), 'rb') as docxf:
