@@ -39,4 +39,10 @@ class Mailer(EmailBot):
         logger.info(f'Sending {response_file} as a response to {msg}')
         with open(response_file, 'rb') as respf:
             response = respf.read()
-        self.clicksend.send(response, Address(**secrets['production_address']))
+        sender = self.get_msg_sender(msg)
+        if 'nac' in sender:
+            self.clicksend.send(response, Address(**secrets['production_address']))
+        else:
+            logger.info(
+                f'Not sending letter because it was sent by {sender}, not Nick'
+            )

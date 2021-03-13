@@ -1,5 +1,5 @@
 import re
-from typing import NamedTuple
+from typing import NamedTuple, Union
 import json
 import ssl
 import os
@@ -180,11 +180,15 @@ class EmailBot:
         """
         Parse the subject from a message.
         """
-        return self._email_regsearch(
+        match = self._email_regsearch(
             data=data,
             pattern=r'^Subject: (.*)$',
             mo_num=1
         )
+        if not match:
+            logger.error('Email subject not found')
+            return ''
+        return match
 
     def get_msg_sender(self, data: bytes) -> str:
         """
@@ -195,6 +199,9 @@ class EmailBot:
             pattern=r'From: (.*)',
             mo_num=1
         )
+        if not sender:
+            logger.error('Email sender not found')
+            return ''
         if '<' in sender and '>' in sender:
             return re.search('<(.*)>', sender)[1]
         logger.debug(f'message sender was {sender}')
@@ -208,13 +215,16 @@ class EmailBot:
         return b''
 
     @ staticmethod
-    def _email_regsearch(*, data: bytes, pattern: str, mo_num: int) -> str:
+    def _email_regsearch(*, data: bytes, pattern: str, mo_num: int) -> Union[str, None]:
         pattern_ = re.compile(pattern)
-        for l in str(data, encoding='utf-8').split('\n'):
+        try:
+            lines = str(data, encoding='utf-8').split('\n')
+        except TypeError:
+            return None
+        for l in lines:
             l = l.strip()
             if mo := re.search(pattern_, l):
                 return mo[mo_num]
-        raise Exception(f'No match for {pattern}')
 
 
     @ staticmethod
