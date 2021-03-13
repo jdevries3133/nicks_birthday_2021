@@ -3,7 +3,7 @@
 ## Final Items
 
 - [ ] test deploy and integration test
-- [ ] add content to `final.docx` for the _very_ end
+- [x] add content to `final.docx` for the _very_ end
 
 ## Email Puzzles
 
