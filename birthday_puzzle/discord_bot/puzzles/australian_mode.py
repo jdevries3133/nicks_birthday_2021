@@ -168,3 +168,17 @@ class AustralianMode(Puzzle):
             self.commands[command]['was_executed'] = True
         response =  self.commands[command]['possible_responses'].pop(response_index)
         return response
+
+    @ flip_output
+    def hint(self) -> str:
+        if self.console_unlocked:
+            sep = '\n- '
+            return (
+                'Al roightey mate, I can lend ya a hand. Take alook at our '
+                f'commands!\n- {sep.join(self.commands.keys())}'
+            )
+        else:
+            return (
+                'Try typing in "go to kangaroo console" if ya want to issue'
+                'some commands'
+            )

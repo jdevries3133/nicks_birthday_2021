@@ -17,15 +17,7 @@ class FinalMode(Puzzle):
     ))
 
     HINT_MSG = '\n'.join(shaify(
-        'So, I hear you are looking for a helping hand. An attentive '
-        'assist. A person who is there for you to make sure that you know '
-        'what exactly you ought to do next! Well, I am happy to tell you '
-        'that I am here for you, my man. I always want help to be easy to '
-        'find. So, with that being said let\'s break this down. If you '
-        'can read this, that means you followed the directions and found '
-        'the message from that mother of yours. With that in hand, you '
-        'have what you need to figure out that garbled email address that '
-        'the bot sent you back when this all started! Just run your mom\'s '
+        'Just run your mom\'s '
         'message through SHA256, then take that 256 bit digest and use it '
         'as the AES key to decrypt the original message. Enjoy!'
     ))
