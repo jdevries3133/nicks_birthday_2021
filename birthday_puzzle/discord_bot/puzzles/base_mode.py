@@ -13,7 +13,9 @@ class BaseMode(Puzzle):
     def prompt(self):
         return (
             'Wow! Nice job with that last one. I hope it wasn\'t too easy. '
-            'Just shoot me an email at [[encryption digest]] to take this '
+            'Just shoot me an email at '
+            '`gyRA84j3YuivG7aP4TRTLAfMIa8Y7AWZkwzB67XjA4M=` '
+            'to take this '
             'conversation to the next level!\n\nWait, hold on a sec... '
             'something isn\'t right there. Try entering `Australian Mode` to '
             'see if we can straighten this out.'

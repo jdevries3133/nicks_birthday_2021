@@ -24,7 +24,12 @@ class Controller:
         '3': {
             'stdout': '1325',
             'stderr': '',
-            'success_response': 'You done it!'
+            'success_response': (
+                'Nice job there Nick! I hope you enjoyed this newfangled '
+                'tech puzzle of mine. If you prefer a return to the '
+                'old-school, you should shoot my buddy an email over at '
+                'old.school.still.cool.69420@gmail.com!'
+            )
         },
     }
 
