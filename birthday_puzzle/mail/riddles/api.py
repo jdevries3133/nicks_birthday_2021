@@ -32,7 +32,7 @@ class Riddler:
         return self.get_response_letter(message)
 
     def send_final_msg(self) -> Path:
-        return Path(Path(__file__).parent, 'static', 'final.docx')
+        return Path(Path(__file__).parent, 'static', 'final.pdf')
 
     def is_complete(self):
         return self.cur_riddle >= len(self.RIDDLE_CLASSES)

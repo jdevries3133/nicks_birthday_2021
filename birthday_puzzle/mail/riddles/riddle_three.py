@@ -34,10 +34,10 @@ class RiddleThree(RiddleBase):
         self.basedir = Path(self.BASE_DIR, '3')
 
         self.times_called_to_paths = {
-            1: Path(self.basedir, '3_initial.docx'),
+            1: Path(self.basedir, '3_initial.pdf'),
             2: Path(self.basedir, '3.docx'),
-            5: Path(self.basedir, '3_hint_0.docx'),
-            10: Path(self.basedir, '3_hint_1.docx'),
+            5: Path(self.basedir, '3_hint_0.pdf'),
+            10: Path(self.basedir, '3_hint_1.pdf'),
         }
 
         # memoized response

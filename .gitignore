@@ -5,3 +5,4 @@ __pycache__
 Session.vim
 .idea
 .vscode
+.DS_Store

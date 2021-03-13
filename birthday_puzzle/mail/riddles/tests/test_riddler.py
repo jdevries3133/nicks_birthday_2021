@@ -9,6 +9,8 @@ def for_every_puzzle(func):
         while not a[0].rid.is_complete():
             for _ in range(20):
                 response_f = a[0].rid.get_response_letter('')
+                if not response_f.exists():
+                    breakpoint()
                 func(a[0], response_f)
             a[0].rid.cur_riddle += 1
     return wrap
@@ -24,7 +26,9 @@ class TestRiddler(TestCase):
 
     @ for_every_puzzle
     def test_all_are_docx(self, response_f):
-        self.assertTrue(response_f.name.endswith('.docx'))
+        self.assertTrue(
+            response_f.name.endswith('.pdf') or response_f.name.endswith('.docx')
+        )
 
     def test_final_msg_ready(self):
         msg = self.rid.send_final_msg()
