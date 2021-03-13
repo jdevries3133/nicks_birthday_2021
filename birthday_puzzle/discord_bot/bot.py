@@ -5,8 +5,6 @@ from .controller import Controller
 
 logger = logging.getLogger(__name__)
 
-GENERAL_CHANNEL_ID = 802628301399130136
-
 class NickBot(discord.Client):
 
     def __init__(self, target_user):
@@ -47,11 +45,3 @@ class NickBot(discord.Client):
     async def send_hint(self, message):
         await message.channel.send(self.control.get_hint())
 
-#    def on_join_message(self, channel):
-#        channel = self.get_channel(channel)
-#        if channel:
-#            await channel.send(
-#                self.control.get_prompt()
-#            )
-#        else:
-#            logger.error('Channel not found for initial prompt')
