@@ -19,13 +19,11 @@ class NickBot(discord.Client):
         Send initial prompt.
         """
         logger.info(f'Logged on as {self.user}')
-        channel = self.get_channel(GENERAL_CHANNEL_ID)
-        if channel:
-            await channel.send(
-                self.control.get_prompt()
-            )
-        else:
-            logger.error('Channel not found for initial prompt')
+        self.on_join_message(GENERAL_CHANNEL_ID)
+
+    async def on_guild_join(self, guild):
+        for channel in guild.text_channels:
+            await channel.send(self.control.get_prompt())
 
     async def on_message(self, message):
         # don't respond to ourself
@@ -48,3 +46,12 @@ class NickBot(discord.Client):
 
     async def send_hint(self, message):
         await message.channel.send(self.control.get_hint())
+
+#    def on_join_message(self, channel):
+#        channel = self.get_channel(channel)
+#        if channel:
+#            await channel.send(
+#                self.control.get_prompt()
+#            )
+#        else:
+#            logger.error('Channel not found for initial prompt')
