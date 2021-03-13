@@ -64,5 +64,5 @@ class SimpleRiddle(RiddleBase):
         return Path(
                 self.BASE_DIR,
                 str(self.stage_id),
-                f'{self.stage_id}.docx'
+                f'{self.stage_id}.pdf'
             )

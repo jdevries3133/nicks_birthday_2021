@@ -3,11 +3,13 @@ import configparser
 from .bot import NickBot
 from  pathlib import Path
 
+
 logging.basicConfig(
+    filename=Path(Path(__file__).parents[2], 'discord_bot.log'),
     level=logging.INFO,
-    handlers=[logging.StreamHandler()],
-    format='%(pathname)s:%(lineno)s\n\t%(module)s::%(message)s'
+    format='%(asctime)s:%(levelname)s:%(name)s => %(message)s',
 )
+
 
 config = configparser.ConfigParser()
 config.read(Path(Path(__file__).parent, 'secrets.ini'))

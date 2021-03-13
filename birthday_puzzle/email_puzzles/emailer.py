@@ -219,8 +219,8 @@ class EmailBot:
 
     @ staticmethod
     def _print_msg_recieved(new_id: bytes) -> None:
-        print(
+        logger.info(
             ('*' * 30)
-            + f' NEW MESSAGE RECIEVED (id: {new_id} '
+            + f' NEW MESSAGE RECIEVED (id: {new_id})'
             + ('*' * 30)
         )

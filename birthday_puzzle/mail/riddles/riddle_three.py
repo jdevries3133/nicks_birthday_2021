@@ -35,7 +35,7 @@ class RiddleThree(RiddleBase):
 
         self.times_called_to_paths = {
             1: Path(self.basedir, '3_initial.pdf'),
-            2: Path(self.basedir, '3.docx'),
+            2: Path(self.basedir, '3.pdf'),
             5: Path(self.basedir, '3_hint_0.pdf'),
             10: Path(self.basedir, '3_hint_1.pdf'),
         }
