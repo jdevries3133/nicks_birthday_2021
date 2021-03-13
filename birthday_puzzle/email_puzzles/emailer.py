@@ -93,16 +93,16 @@ class EmailBot:
 
     _last_id_cache_file = Path(BASE_DIR, 'last_id.json')
 
-    def __init__(self):
+    def __init__(self, username: str=None, password: str=None):
+        self.username = username if username else CREDENTIALS.get('username')
         self.imap = imaplib.IMAP4_SSL('imap.gmail.com', 993)
-        self.username = CREDENTIALS.get('username')
         self.imap.login(
             self.username,
-            CREDENTIALS.get('password')
+            password if password else CREDENTIALS.get('password')
         )
         self.smtp = EmailSender(
             self.username,
-            CREDENTIALS.get('password')
+            password if password else CREDENTIALS.get('password')
         )
         self.controller = Controller()
         self.imap.select('inbox')
