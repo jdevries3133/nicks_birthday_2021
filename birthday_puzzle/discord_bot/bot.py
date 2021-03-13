@@ -12,13 +12,6 @@ class NickBot(discord.Client):
         self.target_user = target_user
         self.control = Controller()
 
-    async def on_ready(self):
-        """
-        Send initial prompt.
-        """
-        logger.info(f'Logged on as {self.user}')
-        self.on_join_message(GENERAL_CHANNEL_ID)
-
     async def on_guild_join(self, guild):
         for channel in guild.text_channels:
             await channel.send(self.control.get_prompt())
