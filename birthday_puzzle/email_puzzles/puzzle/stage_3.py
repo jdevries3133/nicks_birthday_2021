@@ -14,6 +14,16 @@ class int(int):
         'bonk! go to operator overlaoding jail!',
         'Don\'t look at me, I\'m shy UwU',
         'who the fuck knows I\'m not paid enough for this shit'
+        'va te faire foutre !'
+        'you really did that? no fuckin way jose'
+        'are you even trying???? cmonnnn'
+        'why don\'t you try thinking with your brain instead of your ass'
+        'this is why we can\'t have nice things'
+        'The number you have reached has been disconnected. Goodbye.'
+        'Alexa, play This Is Why We Can\'t Have Nice Things by Taylor Swift.'
+        '*Bop It voice* I\'m going to sleep.'
+        'I can\'t believe you make more money than me.'
+        'okay, try again, for real this time'
     ]
 
     def sass(self):
