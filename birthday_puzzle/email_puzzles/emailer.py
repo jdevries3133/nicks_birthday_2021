@@ -94,15 +94,8 @@ class EmailBot:
 
     def __init__(self, username: str=None, password: str=None, cache_id_file: Path=None):
         self.username = username if username else CREDENTIALS.get('username')
-        self.imap = imaplib.IMAP4_SSL('imap.gmail.com', 993)
-        self.imap.login(
-            self.username,
-            password if password else CREDENTIALS.get('password')
-        )
-        self.smtp = EmailSender(
-            self.username,
-            password if password else CREDENTIALS.get('password')
-        )
+        self.password = password if password else CREDENTIALS.get('password')
+        self.login()
         self.controller = Controller()
         self.imap.select('inbox')
         self._last_id_cache_file = (
@@ -117,6 +110,17 @@ class EmailBot:
         self.WAIT = 10  # email polling interval
         logger.debug(f'initialized with last_id {self._last_id}')
 
+    def login(self):
+        self.imap = imaplib.IMAP4_SSL('imap.gmail.com', 993)
+        self.imap.login(
+            self.username,
+            self.password
+        )
+        self.smtp = EmailSender(
+            self.username,
+            self.password
+        )
+
     def __setattr__(self, name, value, *, init=False):
         if name == '_last_id' and not init:
             with open(self._last_id_cache_file, 'w') as jsonf:
@@ -130,10 +134,15 @@ class EmailBot:
         Listen for and respond to emails by using the controller.
         """
         while True:
-            sleep(self.WAIT)
-            new_id, msg = self.get_newest_message()
-            if new_id != self._last_id:
-                self.handle_new_email(new_id, msg)
+            try:
+                sleep(self.WAIT)
+                new_id, msg = self.get_newest_message()
+                if new_id != self._last_id:
+                    self.handle_new_email(new_id, msg)
+            except Exception:
+                self.login()
+                logger.exception('EmailBot main loop')
+                sleep(20)
 
     def handle_new_email(self, new_id, msg):
         self._print_msg_recieved(new_id)
