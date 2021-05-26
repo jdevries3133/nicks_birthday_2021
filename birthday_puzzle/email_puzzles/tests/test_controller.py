@@ -34,7 +34,7 @@ class TestController(unittest.TestCase):
         )
 
     def test_base_case_solution(self, mock_exec):
-        mock_exec.return_value = {'stdout': 'Hello, world!', 'stderr': ''}
+        mock_exec.return_value = {'stdout': 'Hello, world!\n', 'stderr': ''}
         msg = self.controller.respond_to('print("Hello, world!")')
         self.assertEqual(
             msg,
@@ -43,7 +43,7 @@ class TestController(unittest.TestCase):
         self.assertEqual(self.controller.cur_puzzle, 2)
 
     def test_stage_3_solution(self, mock_exec):
-        mock_exec.return_value = {'stdout': '1325', 'stderr': ''}
+        mock_exec.return_value = {'stdout': '1325\n', 'stderr': ''}
         self.controller.cur_puzzle = 3
         solution_code = 'import ctypes\nprint(ctypes.c_short(number).value)'
         msg = self.controller.respond_to(solution_code)

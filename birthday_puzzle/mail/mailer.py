@@ -40,7 +40,7 @@ class Mailer(EmailBot):
         logger.info(f'Sending {response_file} as a response to {msg}')
         with open(response_file, 'rb') as respf:
             response = respf.read()
-        sender = self.get_msg_sender(msg)
+        sender = self.get_msg_sender(self._get_msg_data(new_id))
         if 'nac' in sender:
             self.clicksend.send(response, Address(**secrets['production_address']['send']))
         else:
