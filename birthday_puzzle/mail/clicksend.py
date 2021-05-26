@@ -30,15 +30,6 @@ class Address:
         self.zip_code = zip_code
         self.country = country
 
-    def __eq__(self, other):
-        for attr in [
-                'name', 'addr_line_1', 'addr_line_2', 'city',
-                'state', 'zip_code', 'country'
-        ]:
-            if not getattr(self, attr) == getattr(other, attr):
-                return False
-        return True
-
     def __repr__(self):
         return self.data()
 
