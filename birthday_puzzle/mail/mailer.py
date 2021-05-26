@@ -30,7 +30,8 @@ class Mailer(EmailBot):
         )
         self.clicksend = ClickSend(
             username=secrets['clicksend']['username'],
-            api_key=secrets['clicksend']['API_KEY']
+            api_key=secrets['clicksend']['API_KEY'],
+            return_addr=Address(**secrets['production_address']['return'])
         )
         self.riddler = Riddler()
 
@@ -41,7 +42,7 @@ class Mailer(EmailBot):
             response = respf.read()
         sender = self.get_msg_sender(msg)
         if 'nac' in sender:
-            self.clicksend.send(response, Address(**secrets['production_address']))
+            self.clicksend.send(response, Address(**secrets['production_address']['send']))
         else:
             logger.info(
                 f'Not sending letter because it was sent by {sender}, not Nick'

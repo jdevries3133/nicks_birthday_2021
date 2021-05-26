@@ -3,7 +3,7 @@ import time
 import requests
 
 # seconds to wait between api calls.
-RATE_LIMIT_SLEEP_TIME = 0.3
+RATE_LIMIT_SLEEP_TIME = 1
 
 class EmkcApiUnavailable(ConnectionError):
     pass

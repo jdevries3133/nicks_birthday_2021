@@ -20,14 +20,14 @@ class TestArbitraryExecutor(unittest.TestCase):
     def test_code_execution(self):
         res = self.executor.execute("print('hi')")
         assert res['ran']
-        assert res['output'] == 'hi'
-        assert res['stdout'] == 'hi'
+        assert res['output'].strip() == 'hi'
+        assert res['stdout'].strip() == 'hi'
 
     def test_other_lang(self):
         res = self.executor.execute('console.log("hello, there")', lang='javascript')
         assert res['ran']
-        assert res['output'] == 'hello, there'
-        assert res['stdout'] == 'hello, there'
+        assert res['output'].strip() == 'hello, there'
+        assert res['stdout'].strip() == 'hello, there'
 
     def test_multiline_code_with_args(self):
         res = self.executor.execute(
@@ -35,7 +35,7 @@ class TestArbitraryExecutor(unittest.TestCase):
             args=['hello', 'world!']
         )
         assert res['ran']
-        assert res['stdout'] == "['code.code', 'hello', 'world!']"
+        assert res['stdout'].endswith("'hello', 'world!']\n")
 
     def test_rate_limit_followed(self):
         """

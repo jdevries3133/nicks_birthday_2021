@@ -10,7 +10,7 @@ def for_every_puzzle(func):
             for _ in range(20):
                 response_f = a[0].rid.get_response_letter('')
                 if not response_f.exists():
-                    breakpoint()
+                    raise Exception(f'Response file {response_f} does not exist')
                 func(a[0], response_f)
             a[0].rid.cur_riddle += 1
     return wrap

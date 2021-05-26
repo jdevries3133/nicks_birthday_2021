@@ -45,9 +45,6 @@ def main():
         },
         data=payload
     )
-    breakpoint()
-
-
 
 
 if __name__ == '__main__':

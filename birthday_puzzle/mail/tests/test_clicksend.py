@@ -25,16 +25,22 @@ class MockResponse:
     def json(self):
         return {'data': {'_url': self.content}}
 
-    def __getitem__(self, item) -> str:
+    def __getitem__(self, item):
         return self.content
 
+    @ property
+    def ok(self):
+        return 200 <= self.status_code < 300
 
+
+@ patch.object(Session, 'get')
 class TestClickSend(TestCase):
 
     def setUp(self):
         self.cs = ClickSend(
             username='',
-            api_key=''
+            api_key='',
+            return_addr=MockAddress()
         )
 
     @ patch.object(Session, 'post', return_value=MockResponse(200))
@@ -48,7 +54,7 @@ class TestClickSend(TestCase):
         self.assertFalse(is_success)
 
     @ patch.object(Session, 'post')
-    def test_send_fail_conditions(self, mock_session):
+    def test_send_fail_conditions(self, mock_session, *mocks):
 
         # will fail if file upload fails
         mock_session.return_value = MockResponse(400)

@@ -30,6 +30,18 @@ class Address:
         self.zip_code = zip_code
         self.country = country
 
+    def __eq__(self, other):
+        for attr in [
+                'name', 'addr_line_1', 'addr_line_2', 'city',
+                'state', 'zip_code', 'country'
+        ]:
+            if not getattr(self, attr) == getattr(other, attr):
+                return False
+        return True
+
+    def __repr__(self):
+        return self.data()
+
     def data(self) -> dict:
         return {
             'address_name': self.name,
@@ -47,9 +59,12 @@ class ClickSend:
     hrefs = {
         'upload': 'https://rest.clicksend.com/v3/uploads',
         'send': 'https://rest.clicksend.com/v3/post/letters/send',
+        'return_addr': 'https://rest.clicksend.com/v3/post/return-addresses'
     }
 
-    def __init__(self, username: str, api_key: str):
+    def __init__(self, username: str, api_key: str, return_addr: Address):
+        self.return_addr = return_addr
+        self._return_addr_id = None
         self.session = Session()
         self.session.auth = HTTPBasicAuth(username, api_key)
         self.session.headers['Content-Type'] = 'application/json'
@@ -65,6 +80,9 @@ class ClickSend:
 
         Returns a boolean indicating whether the action was successful.
         """
+        if not self._get_or_create_return_addr():
+            logger.error('Return address creation failed')
+            return False
         if not self._upload(document):
             logger.error(f'File upload failed')
             return False
@@ -79,14 +97,23 @@ class ClickSend:
         """
         res = self.session.post(
             self.hrefs['send'],
-            data=json.dumps({
+            json={
                 'file_url': self.doc_url,
                 'recipients': [
-                    address.data(),
+                    {
+                        **address.data(),
+                        'return_address_id': self._return_addr_id,
+                    }
                 ]
-            })
+            }
         )
-        if self.is_successful(res):
+        if res.ok:
+            for recipient in res.json()['data']['recipients']:
+                if recipient['status'] != 'SUCCESS':
+                    logger.error(
+                        f'Letter failed to send to {recipient["address_name"]}'
+                    )
+                    return False
             return True
         return False
 
@@ -98,19 +125,42 @@ class ClickSend:
         res = self.session.post(
             self.hrefs['upload'],
             params={'convert': 'post'},
-            headers={
-                'Content-type': 'application/json'
-            },
             data=payload
         )
-        if not self.is_successful(res):
+        if not res.ok:
             return False
         self.doc_url = res.json()['data']['_url']
         return True
 
-    @ staticmethod
-    def is_successful(response):
-        return 200 <= response.status_code <= 299
+    def _get_or_create_return_addr(self) -> bool:
+        if self._return_addr_id:
+            return True
+        res = self.session.get(self.hrefs['return_addr'])
+        for result in res.json()['data']['data']:
+            # check that addresses are the same
+            if all([
+                self.return_addr.data().get(attr) == result.get(attr)
+                for attr in [
+                    'address_name', 'address_line_1', 'address_line_2',
+                    'address_city', 'address_state', 'address_postal_code',
+                    'address_country'
+                ]
+            ]):
+                self._return_addr_id = result['return_address_id']
+                return True
+        return self._create_return_addr()
+
+    def _create_return_addr(self) -> bool:
+        res = self.session.post(
+            self.hrefs['return_addr'],
+            json=self.return_addr.data()
+        )
+        if res.ok:
+            self._return_addr_id = res.json()['data']['return_address_id']
+            return True
+        return False
+
+
 
 if __name__ == '__main__':
 
@@ -120,19 +170,15 @@ if __name__ == '__main__':
     with open(Path(Path(__file__).parent, 'secrets.json'), 'r') as jsonf:
         data = json.load(jsonf)
 
-    addr = Address(
-        name=data['clicksend']['name'],
-        addr_line_1=data['clicksend']['addr1'],
-        addr_line_2=data['clicksend']['addr2'],
-        city=data['clicksend']['city'],
-        state=data['clicksend']['state'],
-        zip_code=data['clicksend']['zip_code']
-    )
+    send_addr = Address(**data['clicksend']['test_address']['send'])
+    return_addr = Address(**data['clicksend']['test_address']['return'])
 
     sender = ClickSend(
         data['clicksend']['username'],
-        data['clicksend']['API_KEY']
+        data['clicksend']['API_KEY'],
+        return_addr
     )
+
     with open(
         Path(
             Path(__file__).parent,
@@ -145,4 +191,4 @@ if __name__ == '__main__':
     ) as docf:
         doc = docf.read()
 
-    sender.send(doc, addr)
+    sender.send(doc, send_addr)
