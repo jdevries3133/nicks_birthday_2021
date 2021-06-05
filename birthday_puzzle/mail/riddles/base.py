@@ -21,7 +21,7 @@ class RiddleBase(ABC):
         """
         self.times_called += 1
         for answer in self.CORRECT_ANSWERS:  # type: ignore
-            if answer in message.loser().strip():
+            if answer in message.lower().strip():
                 return None
         return self.get_response_letter()
 
