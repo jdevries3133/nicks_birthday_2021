@@ -107,7 +107,7 @@ class EmailBot:
         else:
             self._last_id = b'0'
 
-        self.WAIT = 10  # email polling interval
+        self.WAIT = 3  # email polling interval
         logger.debug(f'initialized with last_id {self._last_id}')
 
     def login(self):
@@ -203,7 +203,7 @@ class EmailBot:
         """
         Parse the sender from a message.
         """
-        sender =  self._email_regsearch(
+        sender = self._email_regsearch(
             data=data,
             pattern=r'From: (.*)',
             mo_num=1

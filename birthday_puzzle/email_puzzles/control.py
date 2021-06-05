@@ -12,17 +12,17 @@ class Controller:
 
     puzzle_solutions = {
         '1': {
-            'stdout': 'Hello, world!',
+            'stdout': 'Hello, world!\n',
             'stderr': '',
             'success_response': 'Hello to you too! Welcome to stage two :)'
         },
         '2': {
-            'stdout': '200 grams of protien a day keeps the skinny thinny away',
+            'stdout': '200 grams of protien a day keeps the skinny thinny away\n',
             'stderr': '',
             'success_response': 'Phew! What a party!! Thanks for coming!'
         },
         '3': {
-            'stdout': '1325',
+            'stdout': '1325\n',
             'stderr': '',
             'success_response': (
                 'Nice job there Nick! I hope you enjoyed this newfangled '
