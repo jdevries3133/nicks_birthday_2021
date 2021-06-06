@@ -102,7 +102,8 @@ class ClickSend:
             for recipient in res.json()['data']['recipients']:
                 if recipient['status'] != 'SUCCESS':
                     logger.error(
-                        f'Letter failed to send to {recipient["address_name"]}'
+                        f'Letter failed to send to {recipient["address_name"]} '
+                        f'due to {recipient["status"]}'
                     )
                     return False
             return True

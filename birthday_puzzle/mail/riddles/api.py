@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 class Riddler:
 
     RIDDLE_CLASSES = [
-        RiddleOne(),
         RiddleTwo(),
         RiddleThree()
     ]
