@@ -139,6 +139,7 @@ class EmailBot:
                 new_id, msg = self.get_newest_message()
                 if new_id != self._last_id:
                     self.handle_new_email(new_id, msg)
+                    self._last_id = new_id
             except Exception:
                 self.login()
                 logger.exception('EmailBot main loop')
@@ -150,7 +151,6 @@ class EmailBot:
             new_id,
             self.controller.respond_to(msg)
         )
-        self._last_id = new_id
 
     def reply(self, id_: bytes, msg: str):
         data = self._get_msg_data(id_)
